@@ -1,0 +1,13 @@
+{
+  "name": "mevn-stack-boilerplate",
+  "version": "1.0.1",
+  "scripts": {
+    "start": "(cd server; yarn dev;) & (cd admin; yarn dev)"
+  },
+  "packageManager": "yarn@1.22.18",
+  "resolutions": {
+    "postcss": "8",
+    "stylelint-order": "5",
+    "postcss-sorting": "^7.0.1"
+  }
+}

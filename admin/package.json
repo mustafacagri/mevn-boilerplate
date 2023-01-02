@@ -1,6 +1,4 @@
 {
-    "name": "mevn-stack-boilerplate_admin",
-    "version": "1.0.0",
     "scripts": {
         "dev": "npm run build:icons && vite --host",
         "build": "npm run build:icons && vite build",

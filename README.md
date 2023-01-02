@@ -36,6 +36,12 @@ VITE_API_ENDPOINT=http://localhost:3000/api/v1.0.0/
 - `yarn install`
 - `yarn dev`
 
+#### How can run the server and UI together
+
+`yarn start`
+
+That's all. It will run these scripts => `(cd server; yarn dev;) & (cd admin; yarn dev)` parallelly.
+
 ### 📷 Screenshots
 
 <img width="505" alt="Screen Shot 2022-12-31 at 17 05 12" src="https://user-images.githubusercontent.com/7488394/210179097-002b793f-91b7-46b5-ad6c-3a7f8705e09b.png">

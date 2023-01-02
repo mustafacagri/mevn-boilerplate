@@ -1,14 +1,8 @@
 {
-  "name": "hasrateguru-node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
