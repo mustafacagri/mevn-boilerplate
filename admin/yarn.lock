@@ -6038,6 +6038,13 @@ vue-i18n@^9.2.2:
     "@intlify/vue-devtools" "9.2.2"
     "@vue/devtools-api" "^6.2.1"
 
+vue-latest-table@*:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/vue-latest-table/-/vue-latest-table-1.0.5.tgz#fee180ae3c298166aa2bb77c88601538f9a49f0d"
+  integrity sha512-6VPDuUE93fqeYtZdF+yqpRvSUurhQJ9mfV9Q2SD6ktiiP/c6vO2Mjxw9XHo18E9Rt5sogfTGYV1vpGwRCsd6rw==
+  dependencies:
+    vue "^3.2.45"
+
 vue-prism-component@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/vue-prism-component/-/vue-prism-component-2.0.0.tgz#eec89c5fe1ea3d8b55b8721d823b29d8b73b2b6d"
@@ -6072,7 +6079,7 @@ vue3-perfect-scrollbar@^1.6.0:
     perfect-scrollbar "^1.5.5"
     postcss-import "^12.0.0"
 
-vue@^3.2.37:
+vue@^3.2.37, vue@^3.2.45:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"
   integrity sha512-9Nx/Mg2b2xWlXykmCwiTUCWHbWIj53bnkizBxKai1g61f2Xit700A1ljowpTIM11e3uipOeiPcSqnmBg6gyiaA==

@@ -32,7 +32,7 @@ onBeforeMount(() => {
           <VSpacer />
 
           <a
-            href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
+            href="https://github.com/mustafacagri/mevn-stack-boilerplate"
             target="_blank"
             rel="noopener noreferrer"
             style="color: inherit"
