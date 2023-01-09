@@ -1,7 +1,7 @@
-const { response } = require('../../classes')
-const User = require('../../models/user')
-const Post = require('../../models/post')
-const PostCategory = require('../../models/postCategory')
+const { response } = require('../classes')
+const User = require('../models/user')
+const Post = require('../models/post')
+const PostCategory = require('../models/postCategory')
 
 exports.getStats = async (req, res) => {
   try {

@@ -10,7 +10,7 @@ export const useHomepageStore = defineStore('homepage', {
   actions: {
     async init() {
 
-      await request('get', 'admin/homepage/stats').then(res => {
+      await request('get', 'homepage/stats').then(res => {
         if (res?.data?.count) {
           this.stats = { ...res.data.count }
         }

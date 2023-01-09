@@ -17,6 +17,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+app.use(express.static('public'))
+
 // db config
 require('./config/db')
 

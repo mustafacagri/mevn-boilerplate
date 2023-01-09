@@ -9,7 +9,7 @@ router.use('/users', require('./users'))
 router.use('/initialize', require('./initialize'))
 router.use('/posts', require('./posts'))
 router.use('/postcategories', require('./postcategories'))
-router.use('/homepage', require('./homepage'))
+router.use('/homepage', require('../homepage'))
 router.use('/check', require('./check'))
 
 module.exports = router
