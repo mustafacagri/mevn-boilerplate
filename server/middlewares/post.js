@@ -6,6 +6,7 @@ const { middlewares: { posts: STRINGS } = {} } = require('../MAGIC_STRINGS')
 exports.getPost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id).populate({ path: 'postCategories', select: 'name' })
+
     if (!post) {
       response.failed(res, STRINGS.canNotFindPost)
     } else {
@@ -20,6 +21,7 @@ exports.getPost = async (req, res, next) => {
 exports.getPostCategory = async (req, res, next) => {
   try {
     const postCategory = await PostCategory.findById(req.params.id)
+
     if (!postCategory) {
       response.failed(res, STRINGS.canNotFindPostCategory)
     } else {
@@ -34,6 +36,7 @@ exports.getPostCategory = async (req, res, next) => {
 exports.getPostByCategory = async (req, res, next) => {
   try {
     const postCategory = await PostCategory.findById(req.params.id)
+
     if (!postCategory) {
       response.failed(res, STRINGS.canNotFindPostCategory)
     } else {

@@ -28,7 +28,11 @@ const postSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'PostCategory'
     }
-  ]
+  ],
+  image: {
+    type: String,
+    default: ''
+  }
 })
 
 module.exports = mongoose.model('Post', postSchema)

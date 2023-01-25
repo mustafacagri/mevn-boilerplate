@@ -35,7 +35,8 @@ async function init(req, res, next) {
       ]
 
       for (const [index, name] of categories.entries()) {
-        const category = await PostCategory.create({ name })
+        const url = slug(name)
+        const category = await PostCategory.create({ name, url })
 
         const post = posts[index]
         post.postCategories = category._id

@@ -15,16 +15,14 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
-  plugins: [
-    'vue',
-  ],
+  plugins: ['vue'],
   ignorePatterns: ['src/@iconify/*.js', 'node_modules', 'dist', '*.d.ts'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
     // indentation (Already present in TypeScript)
-    'indent': ['error', 2],
+    indent: ['error', 2],
 
     // Enforce trailing command (Already present in TypeScript)
     'comma-dangle': ['error', 'always-multiline'],
@@ -33,7 +31,7 @@ module.exports = {
     'max-len': 'off',
 
     // we don't want it
-    'semi': ['error', 'never'],
+    semi: ['error', 'never'],
 
     // add parens ony when required in arrow function
     'arrow-parens': ['error', 'as-needed'],
@@ -51,6 +49,19 @@ module.exports = {
         allowClassStart: true,
         allowObjectStart: true,
         allowArrayStart: true,
+      },
+    ],
+
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'always',
+          normal: 'always',
+          component: 'always',
+        },
+        svg: 'always',
+        math: 'always',
       },
     ],
 
@@ -76,19 +87,21 @@ module.exports = {
     ],
 
     // ignore virtual files
-    'import/no-unresolved': [2, {
-      ignore: [
-        '~pages$',
-        'virtual:generated-layouts',
+    'import/no-unresolved': [
+      2,
+      {
+        ignore: [
+          '~pages$',
+          'virtual:generated-layouts',
 
-        // Ignore vite's ?raw imports
-        '.*\?raw',
-      ],
-    }],
+          // Ignore vite's ?raw imports
+          '.*?raw',
+        ],
+      },
+    ],
 
     // Thanks: https://stackoverflow.com/a/63961972/10796681
     'no-shadow': 'off',
-
 
     // Plugin: eslint-plugin-promise
     'promise/always-return': 'off',
@@ -98,11 +111,13 @@ module.exports = {
     'vue/block-tag-newline': 'error',
     'vue/component-api-style': 'error',
     'vue/component-name-in-template-casing': ['error', 'PascalCase', { registeredComponentsOnly: false }],
-    'vue/custom-event-name-casing': ['error', 'camelCase', {
-      ignores: [
-        '/^(click):[a-z]+((\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?/',
-      ],
-    }],
+    'vue/custom-event-name-casing': [
+      'error',
+      'camelCase',
+      {
+        ignores: ['/^(click):[a-z]+((d)|([A-Z0-9][a-z0-9]+))*([A-Z])?/'],
+      },
+    ],
     'vue/define-macros-order': 'error',
     'vue/html-comment-content-newline': 'error',
     'vue/html-comment-content-spacing': 'error',
@@ -135,7 +150,18 @@ module.exports = {
     'import/resolver': {
       node: {
         extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs'],
-      },alias: {'extensions': ['.ts', '.js', '.tsx', '.jsx', '.mjs'], 'map': [["@","./src"],["@core","./src/@core"],["@layouts","./src/@layouts"],["@configured-variables","./src/styles/variables/_template.scss"],["@axios","./src/plugins/axios"],["apexcharts","node_modules/apexcharts-clevision"]]},
+      },
+      alias: {
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs'],
+        map: [
+          ['@', './src'],
+          ['@core', './src/@core'],
+          ['@layouts', './src/@layouts'],
+          ['@configured-variables', './src/styles/variables/_template.scss'],
+          ['@axios', './src/plugins/axios'],
+          ['apexcharts', 'node_modules/apexcharts-clevision'],
+        ],
+      },
     },
   },
 }

@@ -4,6 +4,7 @@ const Post = require('../models/post')
 const mongoose = require('mongoose')
 const { controllers: { posts: STRINGS } = {} } = require('../MAGIC_STRINGS')
 const dbQuery = require('../middlewares/utils/dbQuery')
+const multer = require('multer')
 
 exports.getPost = async (req, res) => {
   try {
@@ -19,24 +20,25 @@ exports.getPost = async (req, res) => {
 exports.createPost = async (req, res) => {
   try {
     const { title, description } = req.body
-    let { url, postCategories } = req.body
+    let { url } = req.body
 
-    if (postCategories) {
+    let postCategories = req.body.postCategories.split(',')
+
+    if (postCategories.length > 0 && !!req?.file) {
+      const image = `images/posts/${req.file.filename}`
+
       postCategories = postCategories.map(item => mongoose.Types.ObjectId(item))
 
       const categories = await PostCategory.find().where('_id').in(postCategories).exec()
       postCategories = categories.map(item => item._id) // we need to use only the valid post categories
 
-      if (postCategories.length > 0) {
-        url = await dbc.UrlGenerator(title, 'post')
-        const post = await Post.create({ title, description, url, postCategories })
+      url = await dbc.UrlGenerator(url || title, 'post')
 
-        response.successed(res, post, STRINGS.created)
-      } else {
-        response.failed(res, STRINGS.atLeastOne)
-      }
+      const post = await Post.create({ title, description, url, postCategories, image })
+
+      response.successed(res, post, STRINGS.created)
     } else {
-      response.failed(res, STRINGS.atLeastOne)
+      response.failed(res, STRINGS.atLeastOneCategory)
     }
   } catch (err) {
     response.failed(res, err.message)
@@ -54,8 +56,18 @@ exports.deletePost = async (req, res) => {
 
 exports.updatePost = async (req, res) => {
   try {
-    const { title, hit, postCategories, description } = req.body
-    let { url } = req.body
+    const { title, hit, description } = req.body
+    let { postCategories, url } = req.body
+
+    if (postCategories === '') {
+      return response.failed(res, STRINGS.atLeastOneCategory)
+    }
+
+    postCategories = postCategories.split(',')
+    postCategories = postCategories.map(item => mongoose.Types.ObjectId(item))
+
+    const categories = await PostCategory.find().where('_id').in(postCategories).exec()
+    postCategories = categories.map(item => item._id) // we need to use only the valid post categories
 
     if (url !== res.post.url) {
       // if the new and old url is not same
@@ -63,10 +75,16 @@ exports.updatePost = async (req, res) => {
     }
 
     const data = { title, url, hit, postCategories, description }
+    let image
+
+    if (req?.file?.filename) {
+      image = `images/posts/${req.file.filename}`
+      data.image = image
+    }
 
     Post.findByIdAndUpdate({ _id: req.params.id }, { ...data })
       .then(() => {
-        response.successed(res, { title, url, hit, postCategories, description }, STRINGS.updated)
+        response.successed(res, { ...data }, STRINGS.updated)
       })
       .catch(err => {
         response.failed(res, err.message)

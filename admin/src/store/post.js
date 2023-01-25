@@ -123,16 +123,16 @@ export const usePostStore = defineStore('post', {
     },
 
     async addPost(payload) {
-      await request('post', `admin/posts`, {
-        ...payload,
-      }).then(res => {
-        const data = res.data
+      await postFormData(`admin/posts`, payload).then(res => {
+        if (res?.data) {
+          const { data } = res
 
-        data.postCategories = data.postCategories.map(item => {
-          return this.getPostCategoryById(item)
-        })
+          data.postCategories = data.postCategories.map(item => {
+            return this.getPostCategoryById(item)
+          })
 
-        this.posts.push(res.data)
+          this.posts.push(res.data)
+        }
       })
     },
 
@@ -142,17 +142,24 @@ export const usePostStore = defineStore('post', {
       this.posts[index] = Object.assign(this.posts[index], data)
     },
     getPostByIdCategoryId(Id) {
-      const post2 = this.posts.find(p => p._id === Id)
-      const post = { ...post2 }
+      const found = this.posts.find(p => p._id === Id)
+      const post = { ...found }
 
-      if (post) {
+      if (Object.keys(post).length === 0) {
+        return {
+          hit: 0,
+          image: false,
+          title: 'test title',
+          url: 'test url',
+          postCategories: ['638a63e9e128b806a49e8caa', '638a63e8e128b806a49e8ca6'],
+          description: 'test description',
+        } // if we can not find any post with this Id, return an empty object
+      } else {
         if (post.postCategories && Array.isArray(post.postCategories)) {
           post.postCategories = post.postCategories.map(category => category._id)
         }
 
         return post
-      } else {
-        return {} // if we can not find any post with this Id, return an empty object
       }
     },
     getPostCategoryById(catId) {

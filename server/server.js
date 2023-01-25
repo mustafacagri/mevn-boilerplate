@@ -23,12 +23,11 @@ app.use(express.static('public'))
 require('./config/db')
 
 // reponses jsons correctly
-app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // route files
-app.use(`/api/v1.0.0/`, require('./routes'))
-// app.use(`${process.env.API_PREFIX}`, require('./routes'))
+app.use(process.env.API_PREFIX, require('./routes'))
 
 // error handler middleware
 app.use(errorHandler)
