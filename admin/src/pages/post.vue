@@ -92,6 +92,10 @@ const update = async () => {
         messageStore.setError({ error: message })
       } else if (message) {
         messageStore.setIsSuccess({ message })
+
+        if (!id.value) {
+          formData.value = {} // clear the formData after we successfully create a Post
+        }
       }
     })
     .catch(error => messageStore.setError({ error }))
