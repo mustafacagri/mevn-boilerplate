@@ -1,0 +1,17 @@
+body {
+  background-color: #eaf0fc;
+  margin: 0 auto;
+  font-family: 'Rubik', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.4s;
+
+  &:hover {
+    text-decoration: none;
+    transition: 0.4s;
+  }
+}
