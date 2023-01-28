@@ -2,7 +2,7 @@
   "name": "mevn-stack-boilerplate",
   "version": "1.0.1",
   "scripts": {
-    "start": "(cd server; yarn dev;) & (cd admin; yarn dev)"
+    "start": "(cd server; yarn dev;) & (cd admin; yarn dev) & (cd client; yarn dev)"
   },
   "packageManager": "yarn@1.22.18",
   "resolutions": {
