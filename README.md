@@ -8,9 +8,9 @@ I have started to create this repo as an admin dashboard. Now, there is a client
 
 Open Source ❤
 
-###  ☝️ .end file in the `server` folder
+###  ☝️ .env file in the `server` folder
 
-You should create a .enf file in the server folder.
+You should create a .env file in the server folder.
 
 ```
 NODE_ENV = development
@@ -20,12 +20,24 @@ AUTH_SECRET = YourSecretStringForAPILike-----KvKiA2mMjxGO25Diiibz
 API_PORT = 3000
 ```
 
-###  ☝️ .end file in the `admin` folder
+###  ☝️ .env file in the `admin` folder
 
-You should create a .enf file in the admin folder.
+You should create a .env file in the admin folder.
 
 ```
 VITE_API_ENDPOINT=http://localhost:3000/api/v1.0.0/
+```
+
+###  ☝️ .env file in the `client` folder
+
+You should create a .env file in the `client` folder.
+
+```
+NODE_ENV = development
+DB_URL = YourMongoDBURL
+API_PREFIX = /api/v1.0.0/
+AUTH_SECRET = YourSecretStringForAPILike-----KvKiA2mMjxGO25Diiibz
+API_PORT = 3001
 ```
 
 ### 🛠️ How?
