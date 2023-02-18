@@ -60,6 +60,12 @@ API_PORT = 3001
 
 That's all. It will run these scripts => `(cd server; yarn dev;) & (cd admin; yarn dev) & (cd client; yarn dev)` parallelly.
 
+### How can I support?
+
+⭐ Star my GitHub repo
+
+🛠 Create pull requests, submit bugs, suggest new features or updates
+
 ### 📷 Screenshots
 
 <img width="505" alt="MEVN Stack Boilerplate Admin Dashboard Vuetify Vuexy" src="https://user-images.githubusercontent.com/7488394/210179097-002b793f-91b7-46b5-ad6c-3a7f8705e09b.png">
