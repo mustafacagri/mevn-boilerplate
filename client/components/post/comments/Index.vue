@@ -2,7 +2,7 @@
 import New from './New'
 
 const props = defineProps({
-  postId: Number
+  postId: String
 })
 </script>
 

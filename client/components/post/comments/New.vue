@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  postId: Number
+  postId: String
 })
 
 const formData = ref({ Comment: null, Name: null, Email: null })
