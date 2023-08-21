@@ -34,8 +34,6 @@ const request = async (type, pureUrl, params = {}) => {
     contentType = 'multipart/form-data'
   }
 
-  contentType = 'multipart/form-data'
-
   const headers = {
     // crossdomain: true,
     'x-access-token': token,
@@ -50,7 +48,7 @@ const request = async (type, pureUrl, params = {}) => {
   const response = type === 'get' ? axios[type](url, options) : axios[type](url, params, { headers })
 
   const checkedResponse = await checkResponse(response)
-  if (checkedResponse.isSuccess) {
+  if (checkedResponse?.isSuccess) {
     // we do not return anything if the request failed since we already used useMessageStore().setError
 
     return checkedResponse
