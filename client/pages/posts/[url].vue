@@ -1,5 +1,6 @@
 <script setup>
 import { usePostStore } from '~~/store/post'
+import Comments from '@/components/post/comments/Index'
 const { params } = useRoute()
 
 const apiDomain = import.meta.env.VITE_API_ENDPOINTHOST
@@ -30,6 +31,7 @@ onMounted(() => {
       <div class="card-text" v-html="post.description" />
     </div>
   </div>
+  <Comments :postId="post._id"></Comments>
 </template>
 
 <style scoped lang="scss">
