@@ -33,7 +33,7 @@ const submitComment = () => {
 </script>
 
 <template>
-  <div class="container mt-5">
+  <div class="container mt-4">
     <ul v-if="commentError.length > 0" id="commentError" v-html="commentError" class="mb-4" />
     <div class="row">
       <div class="col-6">

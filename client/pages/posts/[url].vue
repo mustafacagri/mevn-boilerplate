@@ -31,7 +31,7 @@ onMounted(() => {
       <div class="card-text" v-html="post.description" />
     </div>
   </div>
-  <Comments :postId="post._id"></Comments>
+  <Comments :postId="post._id" :comments="post.comments" />
 </template>
 
 <style scoped lang="scss">
