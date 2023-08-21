@@ -6,7 +6,7 @@ const props = defineProps({
 })
 
 const postStore = usePostStore()
-const getPosts = computed(() => (props.records === '0' ? postStore.getPosts : postStore.getLastXPosts(props.records)))
+const getPosts = computed(() => (props.records === 0 ? postStore.getPosts : postStore.getLastXPosts(props.records)))
 
 const apiDomain = import.meta.env.VITE_API_ENDPOINTHOST
 const { defaultImage } = postStore

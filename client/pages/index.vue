@@ -36,7 +36,7 @@ const boxData = computed(() =>
         ></TextIconNumber>
       </div>
 
-      <Posts></Posts>
+      <Posts :records="3" />
     </div>
   </div>
 </template>
