@@ -32,7 +32,8 @@ const postSchema = new mongoose.Schema({
   image: {
     type: String,
     default: ''
-  }
+  },
+  comments: { type: Array }
 })
 
 module.exports = mongoose.model('Post', postSchema)
