@@ -11,6 +11,13 @@ exports.getPost = async (req, res) => {
     res.post.hit++ // each time this route is called, we increase the hit
     await res.post.save()
 
+    const comments =
+      res?.post?.comments?.filter(comment => {
+        return comment?.isActive // only returns the active comments
+      }) || []
+
+    res.post.comments = [...comments]
+
     response.successed(res, res.post)
   } catch (err) {
     response.failed(res, err.message)
