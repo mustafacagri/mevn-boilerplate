@@ -1,8 +1,9 @@
 <script setup>
 import { usePostStore } from '~~/store/post'
+import { request } from '~~/utils/request'
 import Comments from '@/components/post/comments/Index'
-const { params } = useRoute()
 
+const { params } = useRoute()
 const apiDomain = import.meta.env.VITE_API_ENDPOINTHOST
 
 const postStore = usePostStore()
@@ -10,14 +11,14 @@ const { defaultImage } = postStore
 
 const post = ref({})
 
-onMounted(() => {
-  if (params?.url) {
-    const data = postStore.getPostByURL(params.url)
+onMounted(async () => {
+  const { url } = params
 
-    if (data) {
-      post.value = data
-    }
-  }
+  setTimeout(async () => {
+    await request('get', `posts/${url}`).then(res => {
+      post.value = { ...res }
+    })
+  }, 0)
 })
 </script>
 <template>
