@@ -14,7 +14,7 @@ const commentError = ref('')
 const isSubmitting = ref(false)
 
 const errorGenerator = field => {
-  capitalizedField = field.charAt(0).toUpperCase() + field.slice(1)
+  const capitalizedField = field.charAt(0).toUpperCase() + field.slice(1)
   const error = `<li><strong>${capitalizedField}</strong> section can not be empty!</li>`
   commentError.value += error
 }
