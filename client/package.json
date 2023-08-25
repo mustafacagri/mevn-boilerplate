@@ -10,16 +10,16 @@
   "devDependencies": {
     "@volar-plugins/vetur": "latest",
     "node-sass": "^8.0.0",
-    "nuxt": "3.0.0",
+    "nuxt": "3.6.5",
     "sass": "^1.57.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
-    "@pinia/nuxt": "^0.4.6",
+    "@pinia/nuxt": "^0.4.11",
     "lodash": "^4.17.21",
-    "pinia": "^2.0.28",
+    "pinia": "^2.1.6",
     "sass-loader": "^13.2.0"
   }
 }
