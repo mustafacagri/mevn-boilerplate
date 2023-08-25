@@ -5,7 +5,8 @@ module.exports = {
       created: 'Post has been created successfully!',
       deleted: 'The post has been deleted successfully!',
       updated: 'The post has been updated successfully!',
-      atLeastOneImage: 'Posts must have at least one image / photo!'
+      atLeastOneImage: 'Posts must have at least one image / photo!',
+      commentCreated: 'The comment has been submitted successfully!'
     },
     postCategories: {
       created: 'Post category has been created successfully!',

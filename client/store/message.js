@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useMessageStore = defineStore('message', {
-  state: () => ({ error: null, isSucess: 'null', errorTime: 5000, successTime: 5000 }),
+  state: () => ({ error: null, isSucess: 'null', errorTime: 5000, successTime: 15000 }),
   getters: {
     getError() {
       return this.error

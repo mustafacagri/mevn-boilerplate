@@ -14,18 +14,24 @@ async function request(type, pureUrl, params = {}) {
 
   let options = {
     params,
-    headers
+    headers,
+    method: type?.toUpperCase() || 'GET'
+  }
+
+  if (type === 'post') {
+    options.body = params
   }
 
   let returnData
 
   // const { data } = await useAsyncData('data', () => $fetch(url))
-  const { data } = await useFetch(url)
+  const { data, error } = await useFetch(url, { ...options })
 
   if (!data?.value) {
     useMessageStore().setError({ error: 'Something has been happened?!' })
   } else {
-    const message = data.value?.data?.message || ''
+    const message = data.value?.message || ''
+
     if (!data.value?.isSuccess) {
       useMessageStore().setError({ error: message })
     } else {

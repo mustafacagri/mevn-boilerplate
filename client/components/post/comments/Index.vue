@@ -7,15 +7,9 @@ const props = defineProps({
 })
 
 const showDate = value => {
-  let response = ''
+  const response = new Date(value)
 
-  if (value && value.includes('T')) {
-    const date = value.split('T')
-
-    response = `${date[1].slice(0, 5)}, ${date[0]}`
-  }
-
-  return response
+  return response.toLocaleString()
 }
 </script>
 
@@ -35,7 +29,7 @@ const showDate = value => {
             </div>
           </div>
           <div class="col-12 mt-2">{{ comment.comment }}</div>
-        <hr class="my-3" />
+          <hr class="my-3" />
         </div>
       </div>
 

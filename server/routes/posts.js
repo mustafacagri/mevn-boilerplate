@@ -20,5 +20,6 @@ router
   .get(dbQuery(Post, [{ path: 'postCategories', select: 'name', sort: [['createdTime', 'desc']] }]), getGeneric)
 
 router.route('/:id').get(getPost, controller.getPost)
+router.route('/:id/comments').post(getPost, controller.createPostComment)
 
 module.exports = router

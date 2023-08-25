@@ -3,8 +3,6 @@ const PostCategory = require('../models/postCategory')
 const Post = require('../models/post')
 const mongoose = require('mongoose')
 const { controllers: { posts: STRINGS } = {} } = require('../MAGIC_STRINGS')
-const dbQuery = require('../middlewares/utils/dbQuery')
-const multer = require('multer')
 
 exports.getPost = async (req, res) => {
   try {
@@ -22,6 +20,20 @@ exports.getPost = async (req, res) => {
   } catch (err) {
     response.failed(res, err.message)
   }
+}
+
+exports.createPostComment = async (req, res) => {
+  const comments = res?.post?.comments || []
+  const { name, email, comment } = req?.body
+  const _id = new mongoose.mongo.ObjectId()
+  const createdTime = new Date().toISOString()
+  const data = { _id, name, email, comment, createdTime, isActive: false }
+
+  comments.push({ ...data })
+
+  res.post.comments = [...comments]
+  await res.post.save()
+  response.successed(res, data, STRINGS.commentCreated)
 }
 
 exports.createPost = async (req, res) => {
