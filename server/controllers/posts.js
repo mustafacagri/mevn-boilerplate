@@ -125,3 +125,38 @@ exports.getPostsByCategoryId = async (req, res) => {
     response.failed(res, err.message)
   }
 }
+
+exports.updateComment = async (req, res) => {
+  try {
+    const { comment: newComment, postId } = req.body
+    const { name, email, comment, isActive, createdTime } = newComment
+    const _id = new mongoose.mongo.ObjectId(newComment._id)
+
+    await Post.findOneAndUpdate(
+      {
+        _id: postId,
+        'comments._id': _id
+      },
+      {
+        $set: {
+          'comments.$': {
+            name,
+            email,
+            comment,
+            isActive,
+            createdTime,
+            _id
+          }
+        }
+      }
+    )
+      .then(() => {
+        response.successed(res, { _id, name, email, comment, isActive, createdTime }, STRINGS.commentUpdated)
+      })
+      .catch(err => {
+        response.failed(res, err.message)
+      })
+  } catch (err) {
+    response.failed(res, err.message)
+  }
+}

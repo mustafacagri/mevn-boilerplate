@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 
 export const useMessageStore = defineStore('message', {
-  state: () => ({ error: null, isSucess: 'null', errorTime: 5000, successTime: 5000 }),
+  state: () => ({ error: null, isSuccess: 'null', errorTime: 5000, successTime: 5000 }),
   getters: {
     getError() {
       return this.error
     },
     getIsSuccess() {
-      return this.isSucess
+      return this.isSuccess
     },
   },
   actions: {
@@ -22,11 +22,12 @@ export const useMessageStore = defineStore('message', {
     setIsSuccessClear(payload) {
       try {
         this.error = null
-        this.isSucess = payload?.message || null
+        this.isSuccess = payload?.message || null
+
         const time = payload?.time ? payload.time : this.successTime
 
         setTimeout(() => {
-          this.isSucess = null
+          this.isSuccess = null
         }, time)
       } catch (error) {
         this.setErrorClear({ error })
@@ -43,7 +44,7 @@ export const useMessageStore = defineStore('message', {
 
     setError(payload) {
       try {
-        this.isSucess = null
+        this.isSuccess = null
         this.setErrorClear(payload)
       } catch (error) {
         this.setErrorClear({ error })

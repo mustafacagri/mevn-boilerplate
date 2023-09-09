@@ -19,7 +19,8 @@ const headers = [
   { text: 'DATE', value: 'date' },
   { text: 'URL', value: 'url' },
   { text: 'CATEGORIES', value: 'categories' },
-  { text: 'ACTION', value: 'action' },
+  { text: 'COMMENTS', value: 'comments', class: 'text-center' },
+  { text: 'ACTION', value: 'action', class: 'text-center' },
 ]
 </script>
 
@@ -51,6 +52,7 @@ const headers = [
             v-for="header in headers"
             :key="header.value"
             scope="col"
+            :class="header?.class"
           >
             {{ header.text }}
           </th>
@@ -67,6 +69,17 @@ const headers = [
           <td v-text="row.createdTime" />
           <td v-text="row.url" />
           <td v-text="row.categories" />
+          <td>
+            <VBtn
+              :color="row.noOfNotActives > 0 ? 'warning' : 'primary'"
+              :to="'comments/' + row._id"
+            >
+              <VIcon
+                icon="mdi-comment"
+                class="mr-2"
+              />{{ row.noOfNotActives }} / {{ row.noOfComments }}
+            </VBtn>
+          </td>
           <td>
             <VBtn
               color="success"

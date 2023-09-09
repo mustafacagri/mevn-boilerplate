@@ -12,13 +12,22 @@ export const usePostStore = defineStore('post', {
     }),
   getters: {
     getPosts() {
-      return orderBy(this.posts, [item => item.createdTime], ['desc'])
+      const posts = this.posts.map(post => {
+        const { comments } = post
+        const noOfNotActives = comments.filter(comment => comment.isActive === false).length
+        const noOfComments = comments.length
+
+        post = { ...post, noOfNotActives, noOfComments }
+
+        return post
+      })
+
+      return orderBy(posts, [item => item.createdTime], ['desc'])
     },
     showPostsWithCatNames() {
       return this.printCategoryNamesCommas(this.getPosts)
     },
 
-    getLastXPosts: state => num => orderBy(state.posts, [item => item.createdTime], ['desc']).slice(0, num),
     getPostById: state => Id => state.posts.find(post => post._id === Id),
     getPostCategories() {
       return this.postCategories
@@ -29,6 +38,11 @@ export const usePostStore = defineStore('post', {
       this.setPosts()
       this.setPostCategories()
     },
+
+    getLastXPosts(num) {
+      return orderBy(this.getPosts, [item => item.createdTime], ['desc']).slice(0, num)
+    },
+
     async setPosts() {
       await request('get', 'admin/posts').then(res => {
         if (res?.data) {
@@ -149,10 +163,10 @@ export const usePostStore = defineStore('post', {
         return {
           hit: 0,
           image: false,
-          title: 'test title',
-          url: 'test url',
-          postCategories: ['638a63e9e128b806a49e8caa', '638a63e8e128b806a49e8ca6'],
-          description: 'test description',
+          title: '',
+          url: '',
+          postCategories: [],
+          description: '',
         } // if we can not find any post with this Id, return an empty object
       } else {
         if (post.postCategories && Array.isArray(post.postCategories)) {
@@ -170,6 +184,44 @@ export const usePostStore = defineStore('post', {
       const index = this.postCategories.findIndex(p => p._id === id)
 
       this.posts[index] = Object.assign(this.postCategories[index], data)
+    },
+
+    async updateComment(payload) {
+      const { postId, comment: newComment } = payload
+
+      await request('put', `admin/posts/${postId}/comments/${newComment._id}`, {
+        ...payload,
+      })
+        .then(res => {
+          if (res?.isSuccess && res?.data) {
+            const foundPost = this.posts.find(post => post._id === postId)
+
+            if (foundPost) {
+              this.posts = this.posts.map(post => {
+                if (post._id === postId && post?.comments) {
+                  post.comments = post.comments.map(comment => {
+                    if (comment?._id === newComment._id) {
+                      comment = newComment
+                      comment.isLoaded = true
+
+                      setTimeout(() => {
+                        delete comment.isLoaded // remove the field after we remove the loading icon
+                      }, 0)
+
+                      const { message } = res
+                      useMessageStore().setIsSuccess({ message })
+                    }
+
+                    return comment
+                  })
+                }
+
+                return post
+              })
+            }
+          }
+        })
+        .catch(err => useMessageStore().setError({ error: err.message }))
     },
   },
 })

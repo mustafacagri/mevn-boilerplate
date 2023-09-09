@@ -49,4 +49,6 @@ router
   .put([getPost, upload.single('files')], controller.updatePost)
   .delete(getPost, controller.deletePost)
 
+router.route('/:id/comments/:commentId').put(getPost, controller.updateComment)
+
 module.exports = router

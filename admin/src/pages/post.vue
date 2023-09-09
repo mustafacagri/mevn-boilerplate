@@ -19,6 +19,7 @@ const STRINGS = ref(
 )
 
 const files = ref([])
+const breadcrumbs = ref()
 
 const valid = ref()
 const formData = ref({})
@@ -29,10 +30,36 @@ const selectedCategories = ref([])
 
 const apiDomain = import.meta.env.VITE_API_DOMAIN
 
+const initialize = post => {
+  const staticBreadcrumbs = [
+    {
+      title: 'Dashboard',
+      to: '/',
+    },
+    {
+      title: 'Posts',
+      to: '/posts',
+    },
+  ]
+
+  const breadcrumb = [
+    {
+      title: post?.title,
+      to: '/post/' + post?._id,
+      disabled: true,
+    },
+  ]
+
+  if (post?.title) {
+    breadcrumbs.value = [...staticBreadcrumbs, ...breadcrumb]
+  }
+}
+
 watch(
   () => postStore.getPostByIdCategoryId(route.params.id),
   (newData, _oldData) => {
     formData.value = newData
+    initialize(formData.value)
   },
 )
 
@@ -131,6 +158,22 @@ const rules = {
         >
           {{ isSuccess }}
         </VAlert>
+
+        <VBreadcrumbs
+          :items="breadcrumbs"
+          class="pt-0 mb-3"
+        >
+          <template v-slot:prepend>
+            <VIcon
+              size="small"
+              icon="mdi-home"
+            ></VIcon>
+          </template>
+          <template v-slot:divider>
+            <v-icon icon="mdi-forward"></v-icon>
+          </template>
+        </VBreadcrumbs>
+
         <VCard
           :title="STRINGS.title"
           class="pa-4 pt-7"

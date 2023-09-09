@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 import { useUserStore } from '@/store'
 import singlePost from '@/pages/post.vue'
+import commentsOfPost from '@/pages/comments.vue'
 import singlePostCategory from '@/pages/postCategory.vue'
 
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
@@ -19,6 +20,12 @@ router.addRoute({
   name: 'singlePost',
   path: '/post/:id',
   components: { default: singlePost, NavbarThemeSwitcher },
+})
+
+router.addRoute({
+  name: 'commentsOfPost',
+  path: '/comments/:id',
+  components: { default: commentsOfPost, NavbarThemeSwitcher },
 })
 
 router.addRoute({
