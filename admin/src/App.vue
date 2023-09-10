@@ -1,7 +1,4 @@
 <script setup>
-import { onBeforeMount } from 'vue'
-import { useMainStore } from '@/store'
-
 import DrawerContent from '@/layouts/components/DrawerContent.vue'
 import { VerticalNavLayout } from '@layouts'
 
@@ -9,10 +6,6 @@ import { VerticalNavLayout } from '@layouts'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
-
-onBeforeMount(() => {
-  useMainStore().init()
-})
 </script>
 
 <template>
@@ -77,11 +70,10 @@ onBeforeMount(() => {
   </VApp>
 </template>
 
-
 <style lang="scss">
 .app-bar-search {
   .v-input__control {
-    width: 236px
+    width: 236px;
   }
 
   .v-field__outline__start {

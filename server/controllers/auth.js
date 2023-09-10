@@ -8,50 +8,80 @@ var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 
 exports.signup = (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  })
+  const { username, password, email } = req.body
 
-  user.save((err, user) => {
-    if (err) {
-      return res.status(500).send(new response.fail(err))
-    }
+  try {
+    const user = new User({
+      username: username,
+      email: email,
+      password: bcrypt.hashSync(password, 8)
+    })
 
-    if (req.body.roles) {
-      Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
-        // this part should be updated if the user roles should not be chosen from users
-        if (err) {
-          return res.status(500).send(new response.fail(err))
-        }
+    user.save((err, user) => {
+      if (err) {
+        return res.status(200).send(new response.fail(err))
+      }
 
-        user.roles = roles.map(role => role._id)
-        user.save(err => {
+      if (req.body.roles) {
+        Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
+          // this part should be updated if the user roles should not be chosen from users
           if (err) {
-            return res.status(500).send(new response.fail(err))
+            return res.status(200).send(new response.fail(err))
           }
 
-          signin(req, res) // if everything is ok, we are gonna signin automatically
-        })
-      })
-    } else {
-      Role.findOne({ name: 'user' }, (err, role) => {
-        if (err) {
-          return res.status(500).send(new response.fail(err))
-        }
+          user.roles = roles.map(role => role._id)
+          user.save(err => {
+            if (err) {
+              return res.status(200).send(new response.fail(err))
+            }
 
-        user.roles = [role._id]
-        user.save(err => {
+            // signin(req, res) // if everything is ok, we are gonna signin automatically
+            // we disabled this feature for now since the user should be active first to be loged in
+
+            res.status(200).send(
+              response.successed(
+                res,
+                {
+                  username,
+                  email
+                },
+                STRINGS.userCreated
+              )
+            )
+          })
+        })
+      } else {
+        Role.findOne({ name: 'user' }, (err, role) => {
           if (err) {
-            return res.status(500).send(new response.fail(err))
+            return res.status(200).send(new response.fail(err))
           }
 
-          signin(req, res) // if everything is ok, we are gonna signin automatically
+          user.roles = [role._id]
+          user.save(err => {
+            if (err) {
+              return res.status(200).send(new response.fail(err))
+            }
+
+            // signin(req, res) // if everything is ok, we are gonna signin automatically
+            // we disabled this feature for now since the user should be active first to be loged in
+
+            res.status(200).send(
+              response.successed(
+                res,
+                {
+                  username,
+                  email
+                },
+                STRINGS.userCreated
+              )
+            )
+          })
         })
-      })
-    }
-  })
+      }
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 const signin = (req, res) => {
@@ -61,11 +91,15 @@ const signin = (req, res) => {
     .populate('roles', '-__v')
     .exec((err, user) => {
       if (err) {
-        return res.status(500).send(new response.fail(err))
+        return res.status(200).send(new response.fail(err))
       }
 
       if (!user) {
         return response.failed(res, STRINGS.userNotFound, 200)
+      }
+
+      if (!user?.isActive) {
+        return response.failed(res, STRINGS.userNotActive, 200)
       }
 
       const passwordIsValid = bcrypt.compareSync(req.body.password, user.password)

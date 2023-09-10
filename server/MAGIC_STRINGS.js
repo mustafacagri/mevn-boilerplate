@@ -19,7 +19,9 @@ module.exports = {
     },
     auth: {
       userNotFound: 'User not found.',
-      invalidPassword: 'Invalid Password!'
+      invalidPassword: 'Invalid Password!',
+      userNotActive: 'User is not active!',
+      userCreated: 'The user has been successfully created!'
     }
   },
   middlewares: {

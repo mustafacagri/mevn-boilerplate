@@ -1,17 +1,18 @@
 import axios from 'axios'
 import { useMessageStore } from '@/store'
 
-const request = async (type, pureUrl, params = {}) => {
+const request = async (type, pureUrl, params = {}, time = null) => {
   const checkResponse = async data => {
     return data
       .then(res => {
         if (!res?.data) {
-          useMessageStore().setError({ error: 'Something has been happened?!' })
+          useMessageStore().setErrorClear({ error: 'Something has been happened?!' })
         } else {
-          if (res.data.isSuccess === false) {
-            useMessageStore().setError({ error: res.data.message })
+          const { message } = res.data
+          if (res.data?.isSuccess === false) {
+            useMessageStore().setErrorClear({ error: message })
           } else {
-            useMessageStore().setIsSuccess({ message: res.data.message })
+            useMessageStore().setIsSuccess({ message, time })
           }
 
           return res.data

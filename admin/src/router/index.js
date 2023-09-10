@@ -36,7 +36,11 @@ router.addRoute({
 
 router.beforeEach(async (to, from) => {
   const userStore = await useUserStore()
-  const isAdmin = (await userStore.isAdmin()) === true
+  let isAdmin = false
+
+  if (!(to.name === 'login' || to.name === 'register')) {
+    isAdmin = (await userStore.isAdmin()) === true
+  }
 
   if (
     // make sure the user is authenticated ❗️ Avoid an infinite redirect

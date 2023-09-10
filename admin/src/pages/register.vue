@@ -5,27 +5,97 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import logo from '@/assets/logo.svg?raw'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
+import { request } from '@/utils'
 import { useTheme } from 'vuetify'
+import { useMessageStore } from '@/store'
 
-const form = ref({
-  username: '',
-  email: '',
-  password: '',
-  privacyPolicies: false,
-})
+const messageStore = useMessageStore()
+
+const username = ref('')
+const password = ref('')
+const email = ref('')
+
+const initialFormValues = { username: '', email: '', password: '', privacyPolicies: false }
+
+const form = ref({ ...initialFormValues })
 const vuetifyTheme = useTheme()
 const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
 })
 const isPasswordVisible = ref(false)
+
+const valid = ref()
+const rules = {
+  username: [v => !!v || 'Username is required'],
+  password: [v => !!v || 'Password is required'],
+  email: v => {
+    if (/^(([\w{1,100}-]+\.?)+\w+){1,100}@([a-zA-Z0-9+-]{1,100}\.){1,100}[a-zA-Z]{1,100}$/.test(v)) return true
+
+    return 'Must be a valid e-mail'
+  },
+  privacyPolicies: [v => !!v || 'Privacy Policy & Terms should be checked'],
+}
+
+const signup = async () => {
+  if (!valid.value) {
+    const error = 'Please fill the form!'
+    messageStore.setErrorClear({ error })
+  } else {
+    const { username, password, email } = form.value
+
+    await request(
+      'post',
+      'auth/signup',
+      {
+        username,
+        password,
+        email,
+      },
+      60_000, // the message will stay here for 60 seconds
+    )
+      .then(res => {
+        if (res?.isSuccess) {
+          form.value = { ...initialFormValues }
+        }
+      })
+      .catch(err => {
+        messageStore.setError({ error: err.message })
+      })
+  }
+}
 </script>
 
 <template>
+  messageStore: {{ messageStore }}
+  <hr />
+  valid: {{ valid }}
+  <hr />
+  rules: {{ rules }}
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
     >
+      <VAlert
+        v-if="messageStore.error"
+        border="bottom"
+        color="error"
+        dark
+        class="text-center"
+      >
+        {{ messageStore.error }}
+      </VAlert>
+
+      <VAlert
+        v-if="messageStore.getIsSuccess"
+        border="bottom"
+        color="success"
+        dark
+        class="text-center"
+      >
+        {{ messageStore.getIsSuccess }}
+      </VAlert>
+
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
@@ -33,34 +103,34 @@ const isPasswordVisible = ref(false)
           </div>
         </template>
 
-        <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
-          Materio
-        </VCardTitle>
+        <VCardTitle class="font-weight-semibold text-2xl text-uppercase"> MEVN BOILERPLATE </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">
-          Adventure starts here 🚀
-        </h5>
-        <p class="mb-0">
-          Make your app management easy and fun!
-        </p>
+        <h5 class="text-h5 font-weight-semibold mb-1">Adventure starts here 🚀</h5>
+        <p class="mb-0">Make your app management easy and fun!</p>
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="() => {}">
+        <VForm
+          v-model="valid"
+          lazy-validation
+          @submit.prevent="() => {}"
+        >
           <VRow>
             <!-- Username -->
             <VCol cols="12">
               <VTextField
                 v-model="form.username"
                 label="Username"
+                :rules="rules.username"
               />
             </VCol>
             <!-- email -->
             <VCol cols="12">
               <VTextField
                 v-model="form.email"
+                :rules="[rules.email]"
                 label="Email"
                 type="email"
               />
@@ -71,6 +141,7 @@ const isPasswordVisible = ref(false)
               <VTextField
                 v-model="form.password"
                 label="Password"
+                :rules="rules.password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
@@ -79,23 +150,25 @@ const isPasswordVisible = ref(false)
                 <VCheckbox
                   id="privacy-policy"
                   v-model="form.privacyPolicies"
+                  :rules="rules.privacyPolicies"
                   inline
                 />
                 <VLabel
                   for="privacy-policy"
-                  style="opacity: 1;"
+                  style="opacity: 1"
                 >
                   <span class="me-1">I agree to</span>
                   <a
                     href="javascript:void(0)"
                     class="text-primary"
-                  >privacy policy & terms</a>
+                    >privacy policy & terms</a
+                  >
                 </VLabel>
               </div>
 
               <VBtn
                 block
-                type="submit"
+                @click="signup"
               >
                 Sign up
               </VBtn>
@@ -157,7 +230,7 @@ const isPasswordVisible = ref(false)
 </template>
 
 <style lang="scss">
-@use "@core/scss/pages/page-auth.scss";
+@use '@core/scss/pages/page-auth.scss';
 </style>
 
 <route lang="yaml">
