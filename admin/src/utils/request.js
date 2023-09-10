@@ -9,10 +9,11 @@ const request = async (type, pureUrl, params = {}, time = null) => {
           useMessageStore().setErrorClear({ error: 'Something has been happened?!' })
         } else {
           const { message } = res.data
-          if (res.data?.isSuccess === false) {
-            useMessageStore().setErrorClear({ error: message })
-          } else {
+
+          if (res.data?.isSuccess === true) {
             useMessageStore().setIsSuccess({ message, time })
+          } else {
+            useMessageStore().setErrorClear({ error: message, time })
           }
 
           return res.data

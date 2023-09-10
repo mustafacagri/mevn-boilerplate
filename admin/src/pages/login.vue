@@ -29,10 +29,7 @@ const login = async () => {
       remember: remember.value,
     })
       .then(res => {
-        if (!res?.isSuccess) {
-          const error = res?.message
-          messageStore.setError({ error })
-        } else if (res?.isSuccess === true) {
+        if (res?.isSuccess === true) {
           localStorage.setItem('token', res?.data?.accessToken)
           router.replace('/')
         }
