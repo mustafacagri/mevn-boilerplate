@@ -15,7 +15,12 @@ const User = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role'
       }
-    ]
+    ],
+    createdTime: {
+      type: Date,
+      required: true,
+      default: +new Date()
+    }
   })
 )
 

@@ -22,6 +22,9 @@ module.exports = {
       invalidPassword: 'Invalid Password!',
       userNotActive: 'User is not active!',
       userCreated: 'The user has been successfully created!'
+    },
+    users: {
+      rolesCanNotBeEmpty: 'Roles can not be empty!'
     }
   },
   middlewares: {

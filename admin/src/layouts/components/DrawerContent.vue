@@ -47,6 +47,14 @@ const upgradeBanner = computed(() => {
 
     <VerticalNavLink
       :item="{
+        to: 'users',
+        title: 'Users',
+        icon: { icon: 'mdi-account-group' },
+      }"
+    />
+
+    <VerticalNavLink
+      :item="{
         to: 'posts',
         title: 'Posts',
         icon: { icon: 'mdi-clipboard-outline' },
@@ -60,8 +68,6 @@ const upgradeBanner = computed(() => {
         icon: { icon: 'mdi-folder-outline' },
       }"
     />
-
-    
 
     <!-- 👉 User -->
     <VerticalNavSectionTitle :item="{ heading: 'User' }" />
