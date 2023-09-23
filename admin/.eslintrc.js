@@ -18,6 +18,7 @@ module.exports = {
   plugins: ['vue'],
   ignorePatterns: ['src/@iconify/*.js', 'node_modules', 'dist', '*.d.ts'],
   rules: {
+    'import/extensions': never,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
