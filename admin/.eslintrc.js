@@ -149,10 +149,10 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs'],
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs', '.vue'],
       },
       alias: {
-        extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs'],
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.mjs', '.vue'],
         map: [
           ['@', './src'],
           ['@core', './src/@core'],
