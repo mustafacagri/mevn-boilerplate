@@ -6,7 +6,10 @@ const { controllers: { users: STRINGS } = {} } = require('../MAGIC_STRINGS')
 
 exports.getUser = async (req, res) => {
   try {
-    res.json(new response.success(res.user))
+    const { _id, createdTime, email, isActive, roles, username } = res.user
+    const user = { _id, createdTime, email, isActive, roles, username }
+
+    response.successed(res, user)
   } catch (err) {
     res.status(200).json(new response.fail(err.message))
   }

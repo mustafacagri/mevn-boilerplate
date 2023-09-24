@@ -13,7 +13,7 @@ router.use(function (req, res, next) {
 })
 
 verifyToken = (req, res, next) => {
-  let token = req.headers['x-access-token']
+  const token = req.headers['x-access-token']
 
   if (!token) {
     return res.status(200).send(new response.fail(STRINGS.noToken))

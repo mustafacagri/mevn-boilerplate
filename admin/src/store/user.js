@@ -1,6 +1,7 @@
 import { request } from '@/utils'
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
+import jwt_decode from 'jwt-decode'
 
 export const useUserStore = defineStore('user', {
   state: () =>
@@ -26,16 +27,38 @@ export const useUserStore = defineStore('user', {
       this.isAdmin()
       this.setUsers()
       this.setRoles()
+      this.setToken()
     },
     isAdmin() {
       return request('get', 'admin/check').then(res => {
         return res?.isSuccess || false
       })
     },
+    setToken() {
+      const { token } = localStorage
+
+      if (token) {
+        this.token = token
+
+        const decoded = jwt_decode(token)
+        const { id } = decoded
+
+        if (id) {
+          this.setUser(id) // fetch the user's info and store them
+        }
+      }
+    },
     async setUsers() {
       await request('get', 'admin/users').then(res => {
         if (res?.data) {
           this.users = [...res.data]
+        }
+      })
+    },
+    async setUser(id) {
+      await request('get', 'admin/users/' + id).then(res => {
+        if (res?.data) {
+          this.user = { ...res.data }
         }
       })
     },
