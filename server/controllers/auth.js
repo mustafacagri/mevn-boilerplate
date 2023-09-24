@@ -17,13 +17,12 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(password, 8)
     })
 
-    await user.save((err, user) => {
+    await user.save(async (err, user) => {
       if (err) {
         return res.status(200).send(new response.fail(err))
       }
 
       if (roles) {
-        console.log('rolessss')
         Role.find({ name: { $in: roles } }, async err => {
           // this part should be updated if the user roles should not be chosen from users
           if (err) {
@@ -52,7 +51,18 @@ exports.signup = async (req, res) => {
           })
         })
       } else {
-        Role.findOne({ name: 'user' }, async (err, role) => {
+        let name = 'user'
+
+        await User.countDocuments({}, (err, count) => {
+          if (err) {
+            return response.failed(res, err)
+          } else if (count === 1) {
+            name = 'admin'
+            user.isActive = true
+          } // if there is no user), the first one will be automatically an admin and the isActive will be true
+        })
+
+        Role.findOne({ name }, async (err, role) => {
           if (err) {
             return res.status(200).send(new response.fail(err))
           }
@@ -94,11 +104,11 @@ const signin = (req, res) => {
       }
 
       if (!user) {
-        return response.failed(res, STRINGS.userNotFound, 200)
+        return response.failed(res, STRINGS.userNotFound)
       }
 
       if (!user?.isActive) {
-        return response.failed(res, STRINGS.userNotActive, 200)
+        return response.failed(res, STRINGS.userNotActive)
       }
 
       const passwordIsValid = bcrypt.compareSync(req.body.password, user.password)
