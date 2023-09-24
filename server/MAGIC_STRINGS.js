@@ -36,7 +36,8 @@ module.exports = {
     user: {
       authJWT: {
         noToken: 'No token provided!',
-        unauthorized: 'Unauthorized!'
+        unauthorized: 'Unauthorized!',
+        requireAdmin: 'Require Admin Role!'
       }
     }
   }
