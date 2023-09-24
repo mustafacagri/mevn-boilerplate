@@ -1,6 +1,7 @@
 <script setup>
 import { useMessageStore, useUserStore } from '@/store'
 import Edit from '@/components/Users/Edit.vue'
+import Delete from '@/components/Users/Delete.vue'
 
 const userStore = useUserStore()
 const messageStore = useMessageStore()
@@ -22,7 +23,7 @@ const headers = ref([
   { title: 'Roles', key: 'roles' },
   { title: 'isActive', key: 'isActive' },
   { title: 'Created Time', key: 'createdTime' },
-  { title: 'action', key: 'action' },
+  { title: 'Action', key: 'action', width: '180px' },
 ])
 </script>
 
@@ -77,13 +78,21 @@ const headers = ref([
       {{ item.columns.roles.map(role => role.name).join(', ') }}
     </template>
     <template #[`item.action`]="{ item }">
-      <VBtn @click="edit(item.columns)">
-        <VIcon
-          class="mr-2"
-          icon="mdi-pencil"
-        />
-        Edit
+      <VBtn
+        @click="edit(item.columns)"
+        class="mr-2"
+      >
+        <VIcon icon="mdi-pencil" />
       </VBtn>
+
+      <Delete
+        :user="user"
+        @click="user = item.columns"
+      />
+    </template>
+    <template #[`item.createdTime`]="{ item }">
+      <!-- {{ new Date(item.columns.createdTime).toLocaleString() }} -->
+      <span v-if="item.columns.createdTime">{{ item.columns.createdTime.substring(0, 16).replace('T', ', 	') }}</span>
     </template>
   </VDataTable>
 </template>

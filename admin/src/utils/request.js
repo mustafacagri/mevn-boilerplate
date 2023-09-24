@@ -47,7 +47,7 @@ const request = async (type, pureUrl, params = {}, time = null) => {
     headers,
   }
 
-  const response = type === 'get' ? axios[type](url, options) : axios[type](url, params, { headers })
+  const response = ['get', 'delete'].includes(type) ? axios[type](url, options) : axios[type](url, params, { headers })
 
   const checkedResponse = await checkResponse(response)
   if (checkedResponse?.isSuccess) {

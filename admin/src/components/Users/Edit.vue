@@ -19,7 +19,6 @@ const update = () => {
     const error = 'Please fill the form correctly!'
     messageStore.setError({ error })
   } else {
-    // form.value.roles = form.value?.roles.map(item => item?._id)
     userStore.updateUser({ ...form.value })
     emit('updateEditing', false)
   }

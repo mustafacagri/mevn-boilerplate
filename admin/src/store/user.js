@@ -65,5 +65,12 @@ export const useUserStore = defineStore('user', {
         }
       })
     },
+    async removeUser(payload) {
+      await request('delete', `admin/users/${payload._id}`, { ...payload }).then(res => {
+        if (res?.data) {
+          this.users = this.users.filter(user => user._id !== payload?._id)
+        }
+      })
+    },
   },
 })

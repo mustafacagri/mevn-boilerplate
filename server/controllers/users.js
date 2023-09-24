@@ -65,7 +65,9 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     await res.user.remove()
-    res.json(new response.success(null, 'User is deleted'))
+
+    const { _id } = res.user
+    response.successed(res, { _id }, STRINGS.userDeleted)
   } catch (err) {
     return res.status(200).json(new response.fail(err.message))
   }
@@ -73,7 +75,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    res.json(new response.success(res.user, 'User is created'))
+    res.json(new response.success(req.params.id, 'User is created'))
   } catch (error) {
     return res.status(200).json(new response.fail(err.message))
   }

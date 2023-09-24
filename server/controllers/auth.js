@@ -7,8 +7,8 @@ const { controllers: { auth: STRINGS } = {} } = require('../MAGIC_STRINGS')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 
-exports.signup = (req, res) => {
-  const { username, password, email } = req.body
+exports.signup = async (req, res) => {
+  const { email, password, roles, username } = req.body
 
   try {
     const user = new User({
@@ -17,20 +17,21 @@ exports.signup = (req, res) => {
       password: bcrypt.hashSync(password, 8)
     })
 
-    user.save((err, user) => {
+    await user.save((err, user) => {
       if (err) {
         return res.status(200).send(new response.fail(err))
       }
 
-      if (req.body.roles) {
-        Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
+      if (roles) {
+        console.log('rolessss')
+        Role.find({ name: { $in: roles } }, async err => {
           // this part should be updated if the user roles should not be chosen from users
           if (err) {
             return res.status(200).send(new response.fail(err))
           }
 
           user.roles = roles.map(role => role._id)
-          user.save(err => {
+          await user.save((err, user) => {
             if (err) {
               return res.status(200).send(new response.fail(err))
             }
@@ -51,13 +52,13 @@ exports.signup = (req, res) => {
           })
         })
       } else {
-        Role.findOne({ name: 'user' }, (err, role) => {
+        Role.findOne({ name: 'user' }, async (err, role) => {
           if (err) {
             return res.status(200).send(new response.fail(err))
           }
 
           user.roles = [role._id]
-          user.save(err => {
+          await user.save(err => {
             if (err) {
               return res.status(200).send(new response.fail(err))
             }
@@ -65,15 +66,13 @@ exports.signup = (req, res) => {
             // signin(req, res) // if everything is ok, we are gonna signin automatically
             // we disabled this feature for now since the user should be active first to be loged in
 
-            res.status(200).send(
-              response.successed(
-                res,
-                {
-                  username,
-                  email
-                },
-                STRINGS.userCreated
-              )
+            response.successed(
+              res,
+              {
+                username,
+                email
+              },
+              STRINGS.userCreated
             )
           })
         })

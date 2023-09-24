@@ -24,7 +24,8 @@ module.exports = {
       userCreated: 'The user has been successfully created!'
     },
     users: {
-      rolesCanNotBeEmpty: 'Roles can not be empty!'
+      rolesCanNotBeEmpty: 'Roles can not be empty!',
+      userDeleted: 'The user has been deleted successfully!'
     }
   },
   middlewares: {
