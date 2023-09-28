@@ -18,7 +18,7 @@ module.exports = {
       adminUser: 'This is an admin user!'
     },
     auth: {
-      userNotFound: 'User not found.',
+      userNotFound: 'User not found',
       invalidPassword: 'Invalid Password!',
       userNotActive: 'User is not active!',
       userCreated: 'The user has been successfully created!'

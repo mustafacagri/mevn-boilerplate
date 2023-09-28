@@ -95,16 +95,22 @@ exports.signup = async (req, res) => {
 
 const signin = (req, res) => {
   User.findOne({
-    username: req.body.username
+    $or: [
+      { username: req.body?.username },
+      { email: req.body?.username },
+      { username: req.body?.email },
+      { email: req.body?.email }
+    ]
   })
     .populate('roles', '-__v')
     .exec((err, user) => {
       if (err) {
         return res.status(200).send(new response.fail(err))
       }
+      console.log(user)
 
       if (!user) {
-        return response.failed(res, STRINGS.userNotFound)
+        return response.failed(res, `${STRINGS.userNotFound} or ${STRINGS.invalidPassword}`)
       }
 
       if (!user?.isActive) {
@@ -114,7 +120,7 @@ const signin = (req, res) => {
       const passwordIsValid = bcrypt.compareSync(req.body.password, user.password)
 
       if (!passwordIsValid) {
-        return response.failed(res, STRINGS.invalidPassword, 200)
+        return response.failed(res, `${STRINGS.userNotFound} or ${STRINGS.invalidPassword}`)
       }
 
       const { id, username, email, roles } = user // we will send the user data except password

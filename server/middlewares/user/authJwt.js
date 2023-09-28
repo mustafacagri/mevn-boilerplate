@@ -12,18 +12,26 @@ router.use(function (req, res, next) {
   next()
 })
 
-verifyToken = (req, res, next) => {
+verifyToken = async (req, res, next) => {
   const token = req.headers['x-access-token']
 
   if (!token) {
     return res.status(200).send(new response.fail(STRINGS.noToken))
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, config.secret, async (err, decoded) => {
     if (err) {
       return res.status(200).send(new response.fail(STRINGS.unauthorized))
     }
+
     req.userId = decoded.id
+    const user = await User.findById(decoded.id)
+
+    if (user) {
+      const { _id, createdTime, email, isActive, roles, username } = user
+      res.user = { _id, createdTime, email, isActive, roles, username }
+    }
+
     next()
   })
 }
@@ -55,7 +63,7 @@ isAdmin = (req, res, next) => {
 
           response.failed(res, STRINGS.requireAdmin)
           return
-        }	
+        }
       )
     }
   })

@@ -8,17 +8,20 @@ const homepageStore = useHomepageStore()
 
 const getStats = computed(() => homepageStore.getStats)
 
-// ATTTENTION PLEASE!!!!
-const { data } = await useAsyncData('data', () => $fetch(import.meta.env.VITE_API_ENDPOINT + 'homepage/stats')) // if I remove this line, homepageStore.getStats returns an empty object, strange!!!!!!
-
 const boxData = computed(() =>
   Object.keys(getStats?.value).length === 0
     ? []
     : [
-        { title: 'Hit', subTitle: 'Last week', value: getStats.value.postHits, percentage: -12 },
-        { title: 'User', subTitle: 'Last week', value: getStats.value.user, percentage: 98 },
-        { title: 'Post Category', subTitle: 'Last week', value: getStats.value.postCategory, percentage: -48 },
-        { title: 'Post', subTitle: 'Last week', value: getStats.value.post, percentage: 22 }
+        { title: 'Hit', subTitle: 'Last week', value: getStats.value.postHits, percentage: -12, icon: 'star' },
+        { title: 'User', subTitle: 'Last week', value: getStats.value.user, percentage: 98, icon: 'users' },
+        {
+          title: 'Post Category',
+          subTitle: 'Last week',
+          value: getStats.value.postCategory,
+          percentage: -48,
+          icon: 'folder'
+        },
+        { title: 'Post', subTitle: 'Last week', value: getStats.value.post, percentage: 22, icon: 'pencil' }
       ]
 )
 </script>
@@ -32,7 +35,7 @@ const boxData = computed(() =>
           :subTitle="box.subTitle"
           :number="box.value"
           :percentage="box.percentage"
-          icon="box?.icon"
+          :icon="box?.icon"
         ></TextIconNumber>
       </div>
 

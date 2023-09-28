@@ -4,7 +4,7 @@
     <p>{{ subTitle }}</p>
     <span>{{ number }}</span>
     <div class="percentage" :class="percentage < 0 ? 'negative' : 'positive'">{{ percentage }}%</div>
-    <fa-icon :icon="icon" />
+    <font-awesome-icon :icon="icon" />
   </div>
 </template>
 

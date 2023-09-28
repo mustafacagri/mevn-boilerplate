@@ -1,13 +1,27 @@
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useHomepageStore } from '~/store/homepage'
+import { useUserStore } from '~/store/user'
 const homepageStore = useHomepageStore()
+const userStore = useUserStore()
+
+const { getUser } = storeToRefs(userStore)
+const loginOrUser = ref({ text: 'Login', to: '/login', icon: 'fa-solid fa-users' })
+
+watch(getUser, (newV, oldV) => {
+  if (newV) {
+    loginOrUser.value = { text: useUserStore().getUser?.username, to: '/user', icon: 'fa-solid fa-user' }
+  }
+})
+
+const getHeaderItems = computed(() => [...homepageStore.getHeaderItems, loginOrUser.value])
 </script>
 
 <template>
   <header>
-    <template v-for="item in useHomepageStore().getHeaderItems" :key="item.id">
-      <router-link :to="item.to">
-        <span><font-awesome-icon v-if="item.icon" :icon="item.icon" class="mr-2"></font-awesome-icon></span>
+    <template v-for="item in getHeaderItems" :key="item.to">
+      <router-link v-if="item?.to" :to="item.to">
+        <span><Icon :icon="item.icon" class="mr-2" /></span>
         {{ item.text }}
       </router-link>
     </template>

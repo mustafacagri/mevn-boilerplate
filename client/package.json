@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --port=3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -10,7 +10,7 @@
   "devDependencies": {
     "@volar-plugins/vetur": "latest",
     "node-sass": "^8.0.0",
-    "nuxt": "3.6.5",
+    "nuxt": "^3.7.4",
     "sass": "^1.57.1"
   },
   "dependencies": {

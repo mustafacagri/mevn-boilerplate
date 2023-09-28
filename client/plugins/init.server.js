@@ -1,8 +1,4 @@
-import { useGlobalStateStore } from '@/store/globalState'
-
-const initServer = async () => {
-  const globalStateStore = useGlobalStateStore()
-  globalStateStore.init()
-}
-
-export default initServer
+export default defineNuxtPlugin(async nuxtApp => {
+  // const globalStateStore = useGlobalStateStore()
+  // globalStateStore.init()
+})
