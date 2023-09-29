@@ -43,9 +43,7 @@ const login = () => {
 </script>
 
 <template>
-  <div v-if="messageStore.getError" class="alert alert-danger" role="alert">
-    {{ messageStore.getError }}
-  </div>
+  <utilsGetErrorSuccess />
 
   <div id="signinup" class="card">
     <div class="card-body">
