@@ -1,7 +1,9 @@
 <script setup>
-import { useUserStore } from '~/store/user'
-import { useMessageStore } from '~/store/message'
+import { useUserStore } from '@/store/user'
+import { useMessageStore } from '@/store/message'
 import { regexEmail } from '@/utils/regex'
+
+const route = useRouter()
 
 const userStore = useUserStore()
 const messageStore = useMessageStore()
@@ -27,7 +29,11 @@ const login = () => {
       return
     }
 
-    userStore.login({ ...formData.value })
+    userStore.login({ ...formData.value }).then(res => {
+      if (res) {
+        route.push('/user')
+      }
+    })
 
     setTimeout(() => {
       isSubmitting.value = false
@@ -56,6 +62,7 @@ const login = () => {
           />
         </div>
       </div>
+
       <div class="form-group row mb-2">
         <label for="password" class="col-sm-4 col-form-label">Password</label>
         <div class="col-sm-8">

@@ -5,12 +5,15 @@ import { useUserStore } from '~/store/user'
 const homepageStore = useHomepageStore()
 const userStore = useUserStore()
 
-const { getUser } = storeToRefs(userStore)
-const loginOrUser = ref({ text: 'Login', to: '/login', icon: 'fa-solid fa-users' })
+const { getToken } = storeToRefs(userStore)
+const initialLoginOrUser = { text: 'Login', to: '/login', icon: 'fa-solid fa-users' }
+const loginOrUser = ref(initialLoginOrUser)
 
-watch(getUser, (newV, oldV) => {
+watch(getToken, (newV, oldV) => {
   if (newV) {
     loginOrUser.value = { text: useUserStore().getUser?.username, to: '/user', icon: 'fa-solid fa-user' }
+  } else {
+    loginOrUser.value = { ...initialLoginOrUser }
   }
 })
 

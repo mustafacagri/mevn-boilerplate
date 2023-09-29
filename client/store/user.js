@@ -12,44 +12,56 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async init() {
-      this.checkLocalToken()
+      if (process.client) {
+        this.checkLocalToken()
+      }
     },
     async checkLocalToken() {
       if (process.client) {
         const { token } = localStorage
 
         if (token) {
-          this.token = token
-
           await request('get', 'user/test/user').then(res => {
             if (res) {
               this.user = { ...res }
-
-              return 'true'
+              this.token = token
+              localStorage.setItem('user', JSON.stringify(this.user))
             } else {
-              this.token = ''
-              this.user = {}
-              localStorage.removeItem('token')
-              localStorage.removeItem('user')
-
-              return 'false'
+              this.logout()
             }
           })
         }
       }
     },
     async login(payload) {
-      request('post', 'auth/signin', payload).then(res => {
+      let response = false
+      await request('post', 'auth/signin', payload).then(res => {
         if (res) {
           this.user = { ...res }
-          localStorage.setItem(user, JSON.stringify(this.user))
+          localStorage.setItem('user', JSON.stringify(this.user))
 
           if (res?.accessToken) {
-            localStorage.setItem(token, JSON.stringify(res.accessToken))
+            localStorage.setItem('token', res.accessToken)
             this.token = res.accessToken
+
+            response = true
           }
         }
       })
+
+      return response
+    },
+
+    async logout() {
+      this.token = ''
+      this.user = {}
+
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+    },
+
+    async signup(payload) {
+      console.log('userStore signup')
     }
   }
 })
