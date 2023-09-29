@@ -15,3 +15,39 @@ a {
     transition: 0.4s;
   }
 }
+#signinup {
+  .alert::first-letter {
+    text-transform: uppercase;
+  }
+
+  #passwordColumn {
+    input {
+      float: left;
+    }
+
+    svg {
+      float: right;
+      position: absolute;
+      top: 12px;
+      right: 10px;
+      color: hsla(160, 100%, 37%, 1);
+    }
+  }
+
+  .row-pointer {
+    transition-duration: 0.5s;
+    cursor: pointer;
+    background-color: hsla(160, 100%, 37%, 1);
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 5px;
+    color: white;
+    border-radius: 5px;
+
+    &:hover {
+      transition-duration: 0.5s;
+      background-color: #f0f0f0;
+      color: hsla(160, 100%, 37%, 1);
+    }
+  }
+}

@@ -47,7 +47,7 @@ const login = () => {
     {{ messageStore.getError }}
   </div>
 
-  <div class="card">
+  <div id="signinup" class="card">
     <div class="card-body">
       <div class="form-group row mb-2">
         <label for="email" class="col-sm-4 col-form-label">Email</label>
@@ -106,30 +106,3 @@ const login = () => {
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.alert::first-letter {
-  text-transform: uppercase;
-}
-
-#passwordColumn {
-  input {
-    float: left;
-  }
-  svg {
-    float: right;
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    color: hsla(160, 100%, 37%, 1);
-  }
-}
-
-#remember {
-  margin-right: 10px;
-}
-
-.row-pointer {
-  cursor: pointer;
-}
-</style>
