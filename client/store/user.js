@@ -61,7 +61,15 @@ export const useUserStore = defineStore('user', {
     },
 
     async signup(payload) {
-      console.log('userStore signup')
+      let response = false
+
+      await request('post', 'auth/signup', payload).then(res => {
+        if (res) {
+          response = true
+        }
+      })
+
+      return response
     }
   }
 })

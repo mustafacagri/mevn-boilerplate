@@ -16,6 +16,10 @@ a {
   }
 }
 #signinup {
+  #remember {
+    margin-right: 5px;
+  }
+
   .alert::first-letter {
     text-transform: uppercase;
   }
