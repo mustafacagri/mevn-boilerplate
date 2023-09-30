@@ -7,22 +7,18 @@ const userStore = useUserStore()
 
 const { getToken } = storeToRefs(userStore)
 const initialLoginOrUser = { text: 'Login', to: '/login', icon: 'fa-solid fa-users' }
-const loginOrUser = ref(initialLoginOrUser)
-
-watch(getToken, (newV, oldV) => {
-  if (newV) {
-    loginOrUser.value = { text: useUserStore().getUser?.username, to: '/user', icon: 'fa-solid fa-user' }
-  } else {
-    loginOrUser.value = { ...initialLoginOrUser }
-  }
-})
+const loginOrUser = computed(() =>
+  getToken
+    ? { text: useUserStore().getUser?.username, to: '/user', icon: 'fa-solid fa-user' }
+    : { ...initialLoginOrUser }
+)
 
 const getHeaderItems = computed(() => [...homepageStore.getHeaderItems, loginOrUser.value])
 </script>
 
 <template>
   <header>
-    <template v-for="item in getHeaderItems" :key="item.to">
+    <template v-for="(item, index) in getHeaderItems" :key="index">
       <router-link v-if="item?.to" :to="item.to">
         <span><Icon :icon="item.icon" class="mr-2" /></span>
         {{ item.text }}

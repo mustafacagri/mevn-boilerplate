@@ -4,4 +4,5 @@ definePageMeta({
   middleware: 'auth'
 })
 </script>
-<template></template>
+
+<template>tickets</template>
