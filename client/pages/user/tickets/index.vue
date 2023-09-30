@@ -1,8 +1,9 @@
 <script setup>
 definePageMeta({
-  layout: 'user',
+  layout: 'tickets',
   middleware: 'auth'
 })
 </script>
 
-<template>tickets</template>
+<template>
+</template>
