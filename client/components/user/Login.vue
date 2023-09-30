@@ -28,17 +28,17 @@ const login = () => {
       messageStore.setError({ error })
       return
     }
-
-    userStore.login({ ...formData.value }).then(res => {
-      if (res) {
-        route.push('/user')
-      }
-    })
-
-    setTimeout(() => {
-      isSubmitting.value = false
-    }, 2000) // prevent serial clicks
   }
+
+  userStore.login({ ...formData.value }).then(res => {
+    if (res) {
+      route.push('/user')
+    }
+  })
+
+  setTimeout(() => {
+    isSubmitting.value = false
+  }, 2000) // prevent serial clicks
 }
 </script>
 
