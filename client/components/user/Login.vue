@@ -16,16 +16,23 @@ const formData = ref({ email: 'cagri@cagri.com', password: 'cagri' })
 
 const login = () => {
   isSubmitting.value = true
+
   for (const [key, value] of Object.entries(formData.value)) {
+    let error
+
     if (!value) {
-      const error = `${key} is a mandatory field!`
-      messageStore.setError({ error })
-      return
+      error = `${key} is a mandatory field!`
+    } else if (!regexEmail(formData.value?.email)) {
+      error = 'You must enter a valid email address'
     }
 
-    if (!regexEmail(formData.value?.email)) {
-      const error = 'You must enter a valid email address'
+    if (error) {
       messageStore.setError({ error })
+
+      setTimeout(() => {
+        isSubmitting.value = false
+      }, 2000) // prevent serial clicks
+
       return
     }
   }
@@ -35,10 +42,6 @@ const login = () => {
       route.push('/user')
     }
   })
-
-  setTimeout(() => {
-    isSubmitting.value = false
-  }, 2000) // prevent serial clicks
 }
 </script>
 
