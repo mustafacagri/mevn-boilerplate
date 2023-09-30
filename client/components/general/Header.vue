@@ -5,10 +5,9 @@ import { useUserStore } from '~/store/user'
 const homepageStore = useHomepageStore()
 const userStore = useUserStore()
 
-const { getToken } = storeToRefs(userStore)
-const initialLoginOrUser = { text: 'Login', to: '/login', icon: 'fa-solid fa-users' }
+const initialLoginOrUser = { to: '/login', text: 'Login', icon: 'fa-solid fa-users' }
 const loginOrUser = computed(() =>
-  getToken
+  userStore.getToken
     ? { text: useUserStore().getUser?.username, to: '/user', icon: 'fa-solid fa-user' }
     : { ...initialLoginOrUser }
 )
