@@ -47,7 +47,11 @@ const ticketSchema = new mongoose.Schema({
     required: true,
     default: +new Date()
   },
-  lastUpdatedDate: Date,
+  lastUpdatedDate: {
+    type: Date,
+    required: true,
+    default: +new Date()
+  },
   lastUpdatedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -56,8 +60,6 @@ const ticketSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  isActive: { type: Boolean, default: true }, // false means deleted / closed
-  isCompleted: { type: Boolean, default: false },
   comments: [
     {
       text: String,

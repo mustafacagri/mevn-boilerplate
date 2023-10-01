@@ -26,6 +26,9 @@ module.exports = {
     users: {
       rolesCanNotBeEmpty: 'Roles can not be empty!',
       userDeleted: 'The user has been deleted successfully!'
+    },
+    tickets: {
+      created: 'Ticket has been created successfully!'
     }
   },
   middlewares: {
