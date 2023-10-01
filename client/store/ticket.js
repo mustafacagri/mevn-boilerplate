@@ -28,6 +28,15 @@ export const useTicketStore = defineStore('ticket', {
           this.priorities = res.sort((a, b) => b.order - a.order)
         }
       })
+    },
+    async createTicket(payload) {
+      let response
+
+      await request('post', '/ticket', payload).then(res => {
+        response = !!res
+      })
+
+      return response
     }
   }
 })
