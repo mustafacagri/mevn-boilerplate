@@ -2,7 +2,9 @@ const { response } = require('../../classes')
 const Role = require('../../models/role')
 const PostCategory = require('../../models/postCategory')
 const Post = require('../../models/post')
-var slug = require('slug')
+const slug = require('slug')
+
+const { TicketStatus, TicketPriority } = require('../../models/ticket')
 
 async function init(req, res, next) {
   // here we are creating the user roles initially
@@ -11,7 +13,10 @@ async function init(req, res, next) {
   const newCategories = []
   const newPosts = []
 
-  Role.estimatedDocumentCount((err, count) => {
+  const newTicketStatuses = []
+  const newTicketPriorities = []
+
+  await Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       const roles = ['user', 'moderator', 'admin']
       roles.forEach(name => {
@@ -25,7 +30,7 @@ async function init(req, res, next) {
 
   // here we are creating the post & post categories initially
 
-  PostCategory.estimatedDocumentCount(async (err, count) => {
+  await PostCategory.estimatedDocumentCount(async (err, count) => {
     if (!err && count === 0) {
       const categories = ['Test Category', 'General', 'Technology']
       const posts = [
@@ -50,7 +55,33 @@ async function init(req, res, next) {
     }
   })
 
-  return res.json(new response.success({ newRoles, newCategories, newPosts }))
+  await TicketPriority.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      const priorities = ['Lowest', 'Lower', 'Medium', 'Higher', 'Highest']
+
+      for (const [order, name] of priorities.entries()) {
+        new TicketPriority({ name, order }).save(err => {
+          if (err) console.log('error', err)
+          newTicketPriorities.push(`added '${name}' to ticket priorities collection`)
+        })
+      }
+    }
+  })
+
+  await TicketStatus.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      const statuses = ['Open', 'In Progress', 'On Hold', 'Closed', 'Resolved']
+
+      for (const [order, name] of statuses.entries()) {
+        new TicketStatus({ name, order }).save(err => {
+          if (err) console.log('error', err)
+          newTicketStatuses.push(`added '${name}' to ticket statuses collection`)
+        })
+      }
+    }
+  })
+
+  response.successed(res, { newRoles, newCategories, newPosts, newTicketPriorities, newTicketStatuses })
 }
 
 module.exports = init
