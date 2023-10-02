@@ -8,6 +8,6 @@ router.use('/user', require('./user'))
 router.use('/homepage', require('./homepage'))
 router.use('/posts', require('./posts'))
 router.use('/postCategories', require('./postCategories'))
-router.use('/ticket', require('./ticket'))
+router.use('/tickets', require('./ticket'))
 
 module.exports = router

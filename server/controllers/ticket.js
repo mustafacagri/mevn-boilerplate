@@ -23,3 +23,77 @@ exports.createTicket = async (req, res) => {
     response.failed(res, error.message)
   }
 }
+
+exports.ticketsByUser = async (req, res) => {
+  try {
+    const { user } = res
+    const query = { customer: user._id }
+    const { lastUpdatedDate } = req?.query
+
+    if (lastUpdatedDate) {
+      query.lastUpdatedDate = { $gt: lastUpdatedDate }
+    }
+
+    const tickets = await Ticket.find({ ...query }, { comments: 0, __v: 0 })
+      .populate({
+        path: 'status',
+        select: 'name'
+      })
+      .populate({
+        path: 'priority',
+        select: 'name'
+      })
+      .populate({
+        path: 'customer',
+        select: 'username'
+      })
+      .populate({
+        path: 'lastUpdatedBy',
+        select: 'username'
+      })
+      .sort({ createdTime: -1 })
+
+    console.log(tickets, 'tickets')
+
+    response.successed(res, tickets)
+  } catch (error) {
+    response.failed(res, error.message)
+  }
+}
+
+exports.ticketById = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { user } = res
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      response.failed(res, STRINGS.invalidId)
+    } else {
+      const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { __v: 0, customer: 0 })
+        .populate({
+          path: 'status',
+          select: 'name'
+        })
+        .populate({
+          path: 'priority',
+          select: 'name'
+        })
+        .populate({
+          path: 'customer',
+          select: 'username'
+        })
+        .populate({
+          path: 'lastUpdatedBy',
+          select: 'username'
+        })
+
+      if (!ticket) {
+        response.failed(res, null, STRINGS.notFound)
+      } else {
+        response.successed(res, ticket)
+      }
+    }
+  } catch (error) {
+    response.failed(res, error.message)
+  }
+}

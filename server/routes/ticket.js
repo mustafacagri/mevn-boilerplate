@@ -8,9 +8,11 @@ const controller = require('../controllers/ticket')
 
 router.use(authJwt.verifyToken)
 
-router.route('/').post(controller.createTicket)
+router.route('/').post(controller.createTicket).get(controller.ticketsByUser)
 
 router.route('/statuses').get(dbQuery(TicketStatus), getGeneric)
 router.route('/priorities').get(dbQuery(TicketPriority), getGeneric)
+
+router.route('/:id').get(controller.ticketById)
 
 module.exports = router

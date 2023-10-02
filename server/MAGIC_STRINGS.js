@@ -28,7 +28,10 @@ module.exports = {
       userDeleted: 'The user has been deleted successfully!'
     },
     tickets: {
-      created: 'Ticket has been created successfully!'
+      created: 'Ticket has been created successfully!',
+      notFound: 'Ticket(s) not found!',
+      created: 'Ticket has been created successfully!',
+      invalidId: 'Invalid Id!'
     }
   },
   middlewares: {
