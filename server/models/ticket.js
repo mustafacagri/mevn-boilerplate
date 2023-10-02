@@ -62,7 +62,7 @@ const ticketSchema = new mongoose.Schema({
   },
   comments: [
     {
-      text: String,
+      comment: String,
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

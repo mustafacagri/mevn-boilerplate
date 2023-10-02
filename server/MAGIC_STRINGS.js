@@ -31,7 +31,8 @@ module.exports = {
       created: 'Ticket has been created successfully!',
       notFound: 'Ticket(s) not found!',
       created: 'Ticket has been created successfully!',
-      invalidId: 'Invalid Id!'
+      invalidId: 'Invalid Id!',
+      commentCreated: 'The comment has been submitted successfully!'
     }
   },
   middlewares: {
@@ -45,6 +46,7 @@ module.exports = {
         unauthorized: 'Unauthorized!',
         requireAdmin: 'Require Admin Role!'
       }
-    }
+    },
+    tickets: { canNotFindTicket: 'Can not find the ticket!' }
   }
 }

@@ -49,7 +49,7 @@ export const useTicketStore = defineStore('ticket', {
       }
 
       await request('get', 'tickets', params).then(res => {
-        const ids = res.map(ticket => ticket._id)
+        const ids = res?.map(ticket => ticket._id)
 
         this.tickets = [...res, ...this.tickets.filter(ticket => !ids.includes(ticket._id))]
       })

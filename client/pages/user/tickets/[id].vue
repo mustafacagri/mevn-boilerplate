@@ -22,19 +22,23 @@ const mapping = {
   description: 'Description'
 }
 
-onMounted(() => {
-  const { id } = route.params
+const id = computed(() => route.params?.id)
 
-  request('get', 'tickets/' + id).then(res => {
+onMounted(() => {
+  request('get', 'tickets/' + id.value).then(res => {
     ticket.value = res
 
-    ticket.value.priority = ticket.value.priority?.name || '-'
-    ticket.value.status = ticket.value.status?.name || '-'
-    ticket.value.createdTime = timeDisplay(ticket.value.createdTime) || '-'
-    ticket.value.lastUpdatedBy = ticket.value.lastUpdatedBy?.username || '-'
-    ticket.value.lastUpdatedDate = timeDisplay(ticket.value.lastUpdatedDate) || '-'
+    ticket.value?.priority && (ticket.value.priority = ticket.value?.priority?.name || '-')
+    ticket.value?.status && (ticket.value.status = ticket.value?.status?.name || '-')
+    ticket.value?.createdTime && (ticket.value.createdTime = timeDisplay(ticket.value?.createdTime) || '-')
+    ticket.value?.lastUpdatedBy && (ticket.value.lastUpdatedBy = ticket.value?.lastUpdatedBy?.username || '-')
+    ticket.value?.lastUpdatedDate && (ticket.value.lastUpdatedDate = timeDisplay(ticket.value?.lastUpdatedDate) || '-')
   })
 })
+
+const addComment = comment => {
+  ticket.value.comments.push(comment)
+}
 </script>
 
 <template>
@@ -44,11 +48,12 @@ onMounted(() => {
       <div class="col-9">{{ ticket[key] }}</div>
     </div>
   </div>
+  <userTicketNewComment v-if="id" :id="id" @addComment="addComment" />
 </template>
 
 <style scoped lang="scss">
 #Ticket {
-  padding-top: 10px;
+  padding-top: 20px;
 
   .row {
     margin-bottom: 10px;

@@ -53,8 +53,6 @@ exports.ticketsByUser = async (req, res) => {
       })
       .sort({ createdTime: -1 })
 
-    console.log(tickets, 'tickets')
-
     response.successed(res, tickets)
   } catch (error) {
     response.failed(res, error.message)
@@ -66,34 +64,32 @@ exports.ticketById = async (req, res) => {
     const { id } = req.params
     const { user } = res
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      response.failed(res, STRINGS.invalidId)
-    } else {
-      const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { __v: 0, customer: 0 })
-        .populate({
-          path: 'status',
-          select: 'name'
-        })
-        .populate({
-          path: 'priority',
-          select: 'name'
-        })
-        .populate({
-          path: 'customer',
-          select: 'username'
-        })
-        .populate({
-          path: 'lastUpdatedBy',
-          select: 'username'
-        })
+    const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { comments: 1 })
+    res.ticket.comments = ticket.comments
 
-      if (!ticket) {
-        response.failed(res, null, STRINGS.notFound)
-      } else {
-        response.successed(res, ticket)
-      }
-    }
+    response.successed(res, res.ticket)
   } catch (error) {
     response.failed(res, error.message)
+  }
+}
+
+exports.createComment = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { user } = res
+    const { comment } = req.body
+
+    const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { _id: 1 })
+
+    const _id = mongoose.Types.ObjectId()
+    const data = { _id, comment, user: user._id }
+    ticket.comments.push({ ...data })
+    ticket.lastUpdatedDate = +new Date()
+    ticket.lastUpdatedBy = user._id
+    await ticket.save()
+
+    response.successed(res, data, STRINGS.commentCreated)
+  } catch (error) {
+    response.failed(res, null, error.message)
   }
 }
