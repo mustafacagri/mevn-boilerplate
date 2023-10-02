@@ -3,7 +3,7 @@ import { request } from '@/utils/request'
 
 export const useTicketStore = defineStore('ticket', {
   state: () => {
-    return { statuses: null, priorities: null }
+    return { tickets: [], statuses: null, priorities: null }
   },
   getters: {
     getStatuses() {
@@ -11,19 +11,22 @@ export const useTicketStore = defineStore('ticket', {
     },
     getPriorities() {
       return this.priorities
+    },
+    getTickets() {
+      return this.tickets
     }
   },
   actions: {
     init() {},
     fetchStatuses() {
-      request('get', '/ticket/statuses').then(res => {
+      request('get', 'tickets/statuses').then(res => {
         if (res) {
           this.statuses = res.sort((a, b) => a.order - b.order)
         }
       })
     },
     fetchPriorities() {
-      request('get', '/ticket/priorities').then(res => {
+      request('get', 'tickets/priorities').then(res => {
         if (res) {
           this.priorities = res.sort((a, b) => b.order - a.order)
         }
@@ -32,11 +35,24 @@ export const useTicketStore = defineStore('ticket', {
     async createTicket(payload) {
       let response
 
-      await request('post', '/ticket', payload).then(res => {
+      await request('post', 'tickets', payload).then(res => {
         response = !!res
       })
 
       return response
+    },
+    async fetchTickets() {
+      let params = {}
+
+      if (Array.isArray(this.tickets) && this.tickets.length > 0) {
+        params.lastUpdatedDate = this.tickets[0].lastUpdatedDate // with this, we are only fetching the tickets that has been updated after the last ticket in the list
+      }
+
+      await request('get', 'tickets', params).then(res => {
+        const ids = res.map(ticket => ticket._id)
+
+        this.tickets = [...res, ...this.tickets.filter(ticket => !ids.includes(ticket._id))]
+      })
     }
   }
 })
