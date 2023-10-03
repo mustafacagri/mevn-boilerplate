@@ -88,3 +88,9 @@ https://github.com/mustafacagri/mevn-boilerplate/assets/7488394/aca14f0a-af96-40
 
 <img width="1440" alt="MEVN Stack Boilerplate - Client Nuxt 3" src="https://user-images.githubusercontent.com/7488394/215284742-27f43a47-a5fe-4fc1-9610-cc315c204ed7.png">
 
+
+https://github.com/mustafacagri/mevn-boilerplate/assets/7488394/f2c55ebb-1b5f-4514-b29a-6f3eaa5c8a14
+
+- Sign in / up functionality has been added to the client!
+- A support ticket system has been added to the client!
+
