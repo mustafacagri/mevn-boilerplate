@@ -47,8 +47,9 @@ const addComment = comment => {
       <div class="col-3 left">{{ mapping[key] }}:</div>
       <div class="col-9">{{ ticket[key] }}</div>
     </div>
-  </div>
+  <userTicketComment v-if="ticket?.comments" v-for="(comment, index) in ticket.comments" :key="index" :comment="comment" />
   <userTicketNewComment v-if="id" :id="id" @addComment="addComment" />
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -58,14 +59,14 @@ const addComment = comment => {
   .row {
     margin-bottom: 10px;
 
-    &:not(:last-child):after {
+    &:after {
       content: '';
       display: table;
       clear: both;
       width: 100%;
       height: 1px;
       background-color: #eee;
-      margin-top: 5px;
+      margin-top: 10px;
     }
 
     .left {

@@ -79,10 +79,10 @@ exports.createComment = async (req, res) => {
     const { user } = res
     const { comment } = req.body
 
-    const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { _id: 1 })
+    const ticket = await Ticket.findOne({ _id: id, customer: user._id })
 
     const _id = mongoose.Types.ObjectId()
-    const data = { _id, comment, user: user._id }
+    const data = { _id, comment, user: user._id, createdTime: +new Date() }
     ticket.comments.push({ ...data })
     ticket.lastUpdatedDate = +new Date()
     ticket.lastUpdatedBy = user._id

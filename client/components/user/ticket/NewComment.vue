@@ -40,7 +40,6 @@ const submit = () => {
 </script>
 <template>
   <div id="Comment">
-    <div class="divider"></div>
     <utilsGetErrorSuccess />
     <div class="row mt-4">
       <div class="col-3 text-end">New Comment:</div>
@@ -57,13 +56,5 @@ const submit = () => {
 <style scoped lang="scss">
 #Comment {
   padding-bottom: 20px;
-
-  .divider {
-    margin-top: 30px;
-    background-color: #efefef;
-    width: 100%;
-    height: 1px;
-    display: block;
-  }
 }
 </style>
