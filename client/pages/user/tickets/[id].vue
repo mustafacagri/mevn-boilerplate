@@ -47,8 +47,13 @@ const addComment = comment => {
       <div class="col-3 left">{{ mapping[key] }}:</div>
       <div class="col-9">{{ ticket[key] }}</div>
     </div>
-  <userTicketComment v-if="ticket?.comments" v-for="(comment, index) in ticket.comments" :key="index" :comment="comment" />
-  <userTicketNewComment v-if="id" :id="id" @addComment="addComment" />
+    <userTicketComment
+      v-if="ticket?.comments"
+      v-for="(comment, index) in ticket.comments"
+      :key="index"
+      :comment="comment"
+    />
+    <userTicketNewComment v-if="id" :id="id" @addComment="addComment" />
   </div>
 </template>
 

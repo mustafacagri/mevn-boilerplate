@@ -45,7 +45,6 @@ const submit = () => {
   }
 
   ticketStore.createTicket({ ...formData.value }).then(res => {
-    console.warn(res, 'ressss 48')
     if (res) {
       clear()
     }
