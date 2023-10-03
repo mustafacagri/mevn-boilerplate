@@ -10,18 +10,39 @@ const ticketStore = useTicketStore()
 
 const selectedStatus = ref(null)
 const selectedPriority = ref(null)
+let initialTickets
+const tickets = ref()
 
 onMounted(() => {
-  ticketStore.fetchTickets()
+  ticketStore.fetchTickets().then(res => {
+    if (res) {
+      initialTickets = [...ticketStore.getTickets]
+      tickets.value = [...ticketStore.getTickets]
+    }
+  })
 })
+
+const ticketsUpdated = () => {
+  tickets.value = initialTickets.filter(ticket => {
+    if (selectedStatus.value && selectedPriority.value) {
+      return ticket.status._id === selectedStatus.value && ticket.priority._id === selectedPriority.value
+    } else if (selectedStatus.value) {
+      return ticket.status._id === selectedStatus.value
+    } else if (selectedPriority.value) {
+      return ticket.priority._id === selectedPriority.value
+    } else {
+      return true
+    }
+  })
+}
 </script>
 
 <template>
   <div v-if="ticketStore.getStatuses && ticketStore.getPriorities" class="container">
-    <div class="d-flex flex-row bd-highlight mb-3">
+    <div class="d-flex mb-4">
       <div class="mr-4">
         Status:
-        <select v-model="selectedStatus" class="mx-4">
+        <select v-model="selectedStatus" class="mx-4" @change="ticketsUpdated()">
           <option :value="null">All</option>
           <option
             v-if="ticketStore.getStatuses"
@@ -35,7 +56,7 @@ onMounted(() => {
       </div>
       <div class="mr-2">
         Priority:
-        <select v-model="selectedPriority">
+        <select v-model="selectedPriority" @change="ticketsUpdated()">
           <option :value="null">All</option>
           <option
             v-if="ticketStore.getPriorities"
@@ -50,10 +71,15 @@ onMounted(() => {
     </div>
   </div>
 
-  <table
-    v-if="Array.isArray(ticketStore.getTickets) && ticketStore.getTickets.length > 0"
-    class="table table-striped table-hover"
+  <div
+    v-if="tickets && Array.isArray(tickets) && tickets.length === 0 && (selectedPriority || selectedStatus)"
+    class="alert alert-danger"
+    role="alert"
   >
+    There is no ticket with these filters!
+  </div>
+
+  <table v-else-if="tickets" class="table table-striped table-hover">
     <thead>
       <tr>
         <th>Subject</th>
@@ -64,7 +90,7 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(ticket, index) in ticketStore.getTickets" :key="index">
+      <tr v-for="(ticket, index) in tickets" :key="index">
         <td>
           <router-link :to="'/user/tickets/' + ticket._id">{{ ticket?.subject }}</router-link>
         </td>

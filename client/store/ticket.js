@@ -43,6 +43,7 @@ export const useTicketStore = defineStore('ticket', {
     },
     async fetchTickets() {
       let params = {}
+      let response
 
       if (Array.isArray(this.tickets) && this.tickets.length > 0) {
         params.lastUpdatedDate = this.tickets[0].lastUpdatedDate // with this, we are only fetching the tickets that has been updated after the last ticket in the list
@@ -52,7 +53,11 @@ export const useTicketStore = defineStore('ticket', {
         const ids = res?.map(ticket => ticket._id)
 
         this.tickets = [...res, ...this.tickets.filter(ticket => !ids.includes(ticket._id))]
+
+        response = !!res
       })
+
+      return response
     }
   }
 })
