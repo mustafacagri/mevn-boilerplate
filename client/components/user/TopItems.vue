@@ -1,8 +1,12 @@
 <script setup>
+import { useUserStore } from '@/store'
+const userStore = useUserStore()
+
+const router = useRouter()
 const topItems = ref([{ text: 'Tickets', to: '/user/tickets', icon: 'fa-solid fa-envelope' }])
 const logout = () => {
   userStore.logout().then(() => {
-    route.push('/')
+    router.push('/')
   })
 }
 </script>
