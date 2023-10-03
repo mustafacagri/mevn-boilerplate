@@ -17,7 +17,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="ticketStore.getStatuses && ticketStore.getPriorities" class="container">
     <div class="d-flex flex-row bd-highlight mb-3">
       <div class="mr-4">
         Status:
@@ -49,7 +49,11 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <table class="table table-striped table-hover">
+
+  <table
+    v-if="Array.isArray(ticketStore.getTickets) && ticketStore.getTickets.length > 0"
+    class="table table-striped table-hover"
+  >
     <thead>
       <tr>
         <th>Subject</th>
@@ -71,4 +75,11 @@ onMounted(() => {
       </tr>
     </tbody>
   </table>
+
+  <p v-else class="placeholder-glow">
+    <span class="placeholder col-12 placeholder-lg"></span>
+    <span class="placeholder col-7"></span>
+    <span class="placeholder col-6"></span>
+    <span class="placeholder col-8"></span>
+  </p>
 </template>
