@@ -51,7 +51,7 @@ exports.ticketsByUser = async (req, res) => {
         path: 'lastUpdatedBy',
         select: 'username'
       })
-      .sort({ createdTime: -1 })
+      .sort({ lastUpdatedDate: -1 })
 
     response.successed(res, tickets)
   } catch (error) {
