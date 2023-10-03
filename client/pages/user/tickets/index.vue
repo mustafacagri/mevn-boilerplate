@@ -71,12 +71,8 @@ const ticketsUpdated = () => {
     </div>
   </div>
 
-  <div
-    v-if="tickets && Array.isArray(tickets) && tickets.length === 0 && (selectedPriority || selectedStatus)"
-    class="alert alert-danger"
-    role="alert"
-  >
-    There is no ticket with these filters!
+  <div v-if="tickets && Array.isArray(tickets) && tickets.length === 0" class="alert alert-danger" role="alert">
+    There is no ticket <span v-if="selectedPriority || selectedStatus">with these filters!</span>
   </div>
 
   <table v-else-if="tickets" class="table table-striped table-hover">
