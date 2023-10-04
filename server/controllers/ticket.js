@@ -34,24 +34,69 @@ exports.ticketsByUser = async (req, res) => {
       query.lastUpdatedDate = { $gt: lastUpdatedDate }
     }
 
-    const tickets = await Ticket.find({ ...query }, { comments: 0, __v: 0 })
-      .populate({
-        path: 'status',
-        select: 'name'
-      })
-      .populate({
-        path: 'priority',
-        select: 'name'
-      })
-      .populate({
-        path: 'customer',
-        select: 'username'
-      })
-      .populate({
-        path: 'lastUpdatedBy',
-        select: 'username'
-      })
-      .sort({ lastUpdatedDate: -1 })
+    const tickets = await Ticket.aggregate([
+      {
+        $match: { ...query } // Your match conditions here
+      },
+      {
+        $addFields: {
+          commentsCount: { $size: '$comments' }
+        }
+      },
+      {
+        $project: {
+          comments: 0, // Exclude the comments array if you don't need it
+          __v: 0 // Exclude the __v field if you don't need it
+        }
+      },
+      {
+        $sort: { lastUpdatedDate: -1 }
+      },
+      {
+        $lookup: {
+          from: 'ticketstatuses',
+          localField: 'status',
+          foreignField: '_id',
+          as: 'status',
+          pipeline: [{ $project: { _id: 1, name: 1 } }]
+        }
+      },
+      {
+        $lookup: {
+          from: 'ticketpriorities',
+          localField: 'priority',
+          foreignField: '_id',
+          as: 'priority',
+          pipeline: [{ $project: { _id: 1, name: 1 } }]
+        }
+      },
+      {
+        $lookup: {
+          from: 'users', // Assuming the users collection is named 'users'
+          localField: 'customer',
+          foreignField: '_id',
+          as: 'customer',
+          pipeline: [{ $project: { username: 1 } }]
+        }
+      },
+      {
+        $lookup: {
+          from: 'users', // Assuming the users collection is named 'users'
+          localField: 'lastUpdatedBy',
+          foreignField: '_id',
+          as: 'lastUpdatedBy',
+          pipeline: [{ $project: { username: 1 } }]
+        }
+      },
+      {
+        $addFields: {
+          status: { $arrayElemAt: ['$status', 0] },
+          priority: { $arrayElemAt: ['$priority', 0] },
+          customer: { $arrayElemAt: ['$customer', 0] },
+          lastUpdatedBy: { $arrayElemAt: ['$lastUpdatedBy', 0] }
+        }
+      }
+    ])
 
     response.successed(res, tickets)
   } catch (error) {
