@@ -81,6 +81,7 @@ const ticketsUpdated = () => {
         <th>Subject</th>
         <th>Status</th>
         <th>Priority</th>
+        <th># Comment</th>
         <th>Created</th>
         <th>Last</th>
       </tr>
@@ -92,6 +93,7 @@ const ticketsUpdated = () => {
         </td>
         <td>{{ ticket?.status?.name }}</td>
         <td>{{ ticket?.priority?.name }}</td>
+        <td>{{ ticket?.commentsCount }}</td>
         <td>{{ timeDisplay(ticket?.createdTime) }}</td>
         <td>{{ ticket?.lastUpdatedBy?.username }} - {{ timeDisplay(ticket?.lastUpdatedDate) }}</td>
       </tr>
