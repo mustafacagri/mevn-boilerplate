@@ -11,5 +11,6 @@ router.use('/posts', require('./posts'))
 router.use('/postcategories', require('./postcategories'))
 router.use('/homepage', require('../homepage'))
 router.use('/check', require('./check'))
+router.use('/tickets', require('./tickets'))
 
 module.exports = router

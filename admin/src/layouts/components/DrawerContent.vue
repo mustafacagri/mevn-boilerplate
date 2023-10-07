@@ -55,6 +55,14 @@ const upgradeBanner = computed(() => {
 
     <VerticalNavLink
       :item="{
+        to: 'tickets',
+        title: 'Tickets',
+        icon: { icon: 'mdi-folder-outline' },
+      }"
+    />
+
+    <VerticalNavLink
+      :item="{
         to: 'posts',
         title: 'Posts',
         icon: { icon: 'mdi-clipboard-outline' },
