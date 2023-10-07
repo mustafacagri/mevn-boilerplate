@@ -81,7 +81,6 @@ const submit = () => {
         data.user = { _id, username }
       }
 
-      console.info('data', data)
       isSubmitting.value = false
       formData.value = ''
       ticket.value.comments.push(data)

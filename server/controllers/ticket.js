@@ -106,12 +106,6 @@ exports.ticketsByUser = async (req, res) => {
 
 exports.ticketById = async (req, res) => {
   try {
-    const { id } = req.params
-    const { user } = res
-
-    const ticket = await Ticket.findOne({ _id: id, customer: user._id }, { comments: 1 })
-    res.ticket.comments = ticket.comments
-
     response.successed(res, res.ticket)
   } catch (error) {
     response.failed(res, error.message)

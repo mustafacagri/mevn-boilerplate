@@ -16,7 +16,7 @@ exports.getTicket = async (req, res, next) => {
     }
 
     if (Types.ObjectId.isValid(_id) && Types.ObjectId.isValid(customer)) {
-      ticket = await Ticket.findOne({ _id, customer }, { __v: 0, customer: 0, comments: 0 })
+      ticket = await Ticket.findOne({ _id }, { __v: 0, customer: 0 })
         .populate({
           path: 'status',
           select: 'name'
@@ -32,6 +32,11 @@ exports.getTicket = async (req, res, next) => {
         .populate({
           path: 'lastUpdatedBy',
           select: 'username'
+        })
+        .populate({
+          path: 'comments.user',
+          model: 'User', // Specify the model to use for populating 'user'
+          select: '_id username' // Select the '_id' and 'username' fields from 'User'
         })
     }
 

@@ -7,10 +7,10 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div id="Comment" :class="userStore.getUserId === comment.user ? 'text-end' : 'text-left'">
+  <div id="Comment" :class="userStore.getUserId === comment?.user?._id ? 'text-end' : 'text-left'">
     <p>{{ comment.comment }}</p>
     <span>
-      <template v-if="userStore.getUserId === comment.user">{{ userStore?.getUser.username }}</template> -
+      {{ userStore?.getUser.username }} -
       {{ timeDisplay(comment.createdTime) }}
     </span>
   </div>
