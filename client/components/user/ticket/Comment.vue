@@ -10,7 +10,7 @@ const userStore = useUserStore()
   <div id="Comment" :class="userStore.getUserId === comment?.user?._id ? 'text-end' : 'text-left'">
     <p>{{ comment.comment }}</p>
     <span>
-      {{ userStore?.getUser.username }} -
+      {{ comment?.user?.username }} -
       {{ timeDisplay(comment.createdTime) }}
     </span>
   </div>
