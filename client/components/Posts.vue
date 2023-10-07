@@ -13,7 +13,7 @@ const { defaultImage } = postStore
 </script>
 
 <template>
-  <div v-if="getPosts" class="container mt-5" id="Posts">
+  <div v-if="Array.isArray(getPosts) && getPosts.length > 0" class="container mt-5" id="Posts">
     <div class="row">
       <div class="col-md-4" v-for="item in getPosts" :key="item.id">
         <div class="card mb-4 post">
@@ -30,6 +30,7 @@ const { defaultImage } = postStore
       </div>
     </div>
   </div>
+  <utilsSkeleton v-else />
 </template>
 
 <style scoped lang="scss">

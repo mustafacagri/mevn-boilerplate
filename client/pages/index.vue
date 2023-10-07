@@ -28,7 +28,7 @@ const boxData = computed(() =>
 
 <template>
   <div>
-    <div class="row" v-if="getStats">
+    <div class="row" v-if="getStats?.user">
       <div class="col-md-3" v-for="box in boxData" :key="box.id">
         <TextIconNumber
           :title="box.title"
@@ -38,8 +38,9 @@ const boxData = computed(() =>
           :icon="box?.icon"
         ></TextIconNumber>
       </div>
-
-      <Posts :records="3" />
     </div>
+    <utilsSkeleton v-else />
+
+    <Posts :records="3" />
   </div>
 </template>
