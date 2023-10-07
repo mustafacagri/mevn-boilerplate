@@ -3,7 +3,10 @@ import { useUserStore } from '@/store'
 const userStore = useUserStore()
 
 const router = useRouter()
-const topItems = ref([{ text: 'Tickets', to: '/user/tickets', icon: 'fa-solid fa-envelope' }])
+const topItems = ref([
+  { text: 'Profile', to: '/user/profile', icon: 'fa-solid fa-user' },
+  { text: 'Tickets', to: '/user/tickets', icon: 'fa-solid fa-envelope' }
+])
 const logout = () => {
   userStore.logout().then(() => {
     router.push('/')
