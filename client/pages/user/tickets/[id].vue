@@ -55,6 +55,8 @@ const addComment = comment => {
     />
     <userTicketNewComment v-if="id" :id="id" @addComment="addComment" />
   </div>
+	<utilsSkeleton v-else />
+
 </template>
 
 <style scoped lang="scss">
