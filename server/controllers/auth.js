@@ -93,7 +93,7 @@ exports.signup = async (req, res) => {
   }
 }
 
-const signin = (req, res) => {
+exports.signin = (req, res) => {
   User.findOne({
     $or: [
       { username: req.body?.username },
@@ -146,5 +146,3 @@ const signin = (req, res) => {
       )
     })
 }
-
-exports.signin = signin
