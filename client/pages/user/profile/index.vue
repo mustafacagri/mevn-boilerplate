@@ -29,9 +29,9 @@ const user = computed(() => userStore.getUser)
               </div>
             </div>
             <div class="form-group row mb-2 mt-3">
-              <label for="email" class="col-sm-4 text-end ">Active:</label>
+              <label for="email" class="col-sm-4 text-end">Active:</label>
               <div class="col-sm-8">
-                <div class="d-inline p-2 text-white" :class="user?.isActive ? 'bg-success' : 'bg-error'">
+                <div class="d-inline p-2 text-white" :class="user?.isActive ? 'bg-success' : 'bg-danger'">
                   {{ user?.isActive ? 'Yes' : 'No' }}
                 </div>
               </div>

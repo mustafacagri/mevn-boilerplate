@@ -123,7 +123,7 @@ const signin = (req, res) => {
         return response.failed(res, `${STRINGS.userNotFound} or ${STRINGS.invalidPassword}`)
       }
 
-      const { id, username, email, roles } = user // we will send the user data except password
+      const { id, isActive, email, roles, username } = user // we will send the user data except password
       let expiresIn = 86400 // 24 hours
 
       if (req.body.remember === true) {
@@ -137,9 +137,10 @@ const signin = (req, res) => {
       res.status(200).send(
         new response.success({
           id,
-          username,
+          isActive,
           email,
           roles,
+          username,
           accessToken: token
         })
       )
