@@ -1,4 +1,5 @@
 import { request } from '@/utils/request'
+import { useMessageStore } from './message'
 
 export const useUserStore = defineStore('user', {
   state: () =>
@@ -67,6 +68,33 @@ export const useUserStore = defineStore('user', {
       await request('post', 'auth/signup', payload).then(res => {
         if (res) {
           response = true
+        }
+      })
+
+      return response
+    },
+
+    async updatePassword(payload) {
+      let response = false
+      let error = ''
+
+      if (payload?.password !== payload?.repassword) {
+        error = 'Password and Re-password must be the same!'
+      } else if (payload?.password.length < 5) {
+        error = 'Password must be at least 5 characters!'
+      }
+
+      if (error) {
+        useMessageStore().setError({ error })
+
+        return
+      }
+
+      await request('put', 'user/update', payload).then(res => {
+        if (res) {
+          response = true
+          this.token = res
+          localStorage.setItem('token', res)
         }
       })
 

@@ -1,3 +1,8 @@
+const config = require('../config/auth')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const User = require('../models/user')
+
 const { response } = require('../classes')
 
 exports.allAccess = (req, res) => {
@@ -14,4 +19,30 @@ exports.adminAccess = (req, res) => {
 
 exports.moderatorAccess = (req, res) => {
   response.successed(res, null, 'Moderator Content.')
+}
+
+exports.update = async (req, res) => {
+  const { password, repassword } = req.body
+  let error
+
+  if (password !== repassword) {
+    error = 'Password and Repeat Password must be the same!'
+  }
+
+  if (error) {
+    response.failed(res, error)
+  } else {
+    const { _id: id } = res.user
+    const user = await User.findById(id)
+
+    user.password = bcrypt.hashSync(password, 8)
+    await user.save()
+
+    const expiresIn = 86400 // 24 hours
+    const token = jwt.sign({ id }, config.secret, {
+      expiresIn
+    })
+
+    response.successed(res, token, 'User info has been updated successfully!')
+  }
 }

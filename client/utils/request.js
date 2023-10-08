@@ -17,7 +17,7 @@ async function request(type, pureUrl, params = {}) {
     method: type?.toUpperCase() || 'GET'
   }
 
-  if (type === 'post') {
+  if (['post', 'put', 'patch'].includes(type)) {
     options.body = params
   }
 
