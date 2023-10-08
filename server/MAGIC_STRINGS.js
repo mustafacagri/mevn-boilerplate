@@ -25,7 +25,13 @@ module.exports = {
     },
     users: {
       rolesCanNotBeEmpty: 'Roles can not be empty!',
-      userDeleted: 'The user has been deleted successfully!'
+      userDeleted: 'The user has been deleted successfully!',
+      publicContent: 'Public Content',
+      userContent: 'User Content',
+      adminContent: 'Admin Content',
+      moderatorContent: 'Moderator Content',
+      userUpdated: 'User info has been updated successfully!',
+      passwordAndRepasswordMustBeTheSame: 'Password and Repeat Password must be the same!'
     },
     tickets: {
       created: 'Ticket has been created successfully!',

@@ -2,11 +2,12 @@ const config = require('../config/auth')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const { controllers: { users: STRINGS } = {} } = require('../MAGIC_STRINGS')
 
 const { response } = require('../classes')
 
 exports.allAccess = (req, res) => {
-  response.successed(res, null, 'Public Content.')
+  response.successed(res, null, STRINGS.publicContent)
 }
 
 exports.userAccess = (req, res) => {
@@ -14,11 +15,11 @@ exports.userAccess = (req, res) => {
 }
 
 exports.adminAccess = (req, res) => {
-  response.successed(res, null, 'Admin Content.')
+  response.successed(res, null, STRINGS.adminContent)
 }
 
 exports.moderatorAccess = (req, res) => {
-  response.successed(res, null, 'Moderator Content.')
+  response.successed(res, null, STRINGS.moderatorContent)
 }
 
 exports.update = async (req, res) => {
@@ -26,7 +27,7 @@ exports.update = async (req, res) => {
   let error
 
   if (password !== repassword) {
-    error = 'Password and Repeat Password must be the same!'
+    error = STRINGS.passwordAndRepasswordMustBeTheSame
   }
 
   if (error) {
@@ -43,6 +44,6 @@ exports.update = async (req, res) => {
       expiresIn
     })
 
-    response.successed(res, token, 'User info has been updated successfully!')
+    response.successed(res, token, STRINGS.userUpdated)
   }
 }
