@@ -99,6 +99,19 @@ export const useUserStore = defineStore('user', {
       })
 
       return response
+    },
+
+    async activate(payload) {
+      const { email, authCode } = payload
+      let response = false
+
+      await request('post', 'auth/activate', payload, 30_000).then(res => {
+        if (res) {
+          response = true
+        }
+      })
+
+      return response
     }
   }
 })

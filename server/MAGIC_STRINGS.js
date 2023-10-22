@@ -21,7 +21,10 @@ module.exports = {
       userNotFound: 'User not found',
       invalidPassword: 'Invalid Password!',
       userNotActive: 'User is not active!',
-      userCreated: 'The user has been successfully created!'
+      userCreated: 'The user has been successfully created!',
+      userActivated: 'The user has been successfully activated!',
+      invalidAuthCode: 'Invalid Auth Code!',
+      userAlreadyActivated: 'User already activated!'
     },
     users: {
       rolesCanNotBeEmpty: 'Roles can not be empty!',

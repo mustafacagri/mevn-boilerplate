@@ -20,6 +20,10 @@ const User = mongoose.model(
       type: Date,
       required: true,
       default: +new Date()
+    },
+    authCode: {
+      type: String,
+      required: false
     }
   })
 )

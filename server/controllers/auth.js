@@ -3,6 +3,8 @@ const Role = require('../models/role')
 const User = require('../models/user')
 const { response } = require('../classes')
 const { controllers: { auth: STRINGS } = {} } = require('../MAGIC_STRINGS')
+const sendMail = require('../utils/sendMail')
+const { randomInt } = require('node:crypto')
 
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
@@ -11,10 +13,14 @@ exports.signup = async (req, res) => {
   const { email, password, roles, username } = req.body
 
   try {
+    const authCode =
+      randomInt(1000_000_000).toString().padStart(12, '0') + randomInt(1000_000_000).toString().padStart(12, '0')
+
     const user = new User({
-      username: username,
-      email: email,
-      password: bcrypt.hashSync(password, 8)
+      authCode,
+      email,
+      password: bcrypt.hashSync(password, 8),
+      username
     })
 
     await user.save(async (err, user) => {
@@ -75,6 +81,19 @@ exports.signup = async (req, res) => {
 
             // signin(req, res) // if everything is ok, we are gonna signin automatically
             // we disabled this feature for now since the user should be active first to be loged in
+
+            const html = `Welcome to the platform!!!<br><br>You can click the link and your account will be activated.<br><br><a href="${process.env.CLIENT_URL}useractivate/?email=${email}&authCode=${authCode}">Activate</a>`
+
+            const text = `Welcome to the platform!!! You can click the link and your account will be activated. ${process.env.CLIENT_URL}useractivate/?email=${email}&authCode=${authCode}`
+
+            const payload = {
+              to: email, // list of receivers
+              subject: 'Confirmation Email', // Subject line
+              text, // plain text body
+              html // html body
+            }
+
+            sendMail(payload)
 
             response.successed(
               res,
@@ -145,4 +164,37 @@ exports.signin = (req, res) => {
         })
       )
     })
+}
+
+exports.activate = async (req, res) => {
+  const { email, authCode } = req.body
+
+  try {
+    await User.findOne({ email }, async (err, user) => {
+      if (err) {
+        return res.status(200).send(new response.fail(err))
+      }
+
+      if (!user || user.authCode !== authCode) {
+        return response.failed(res, `${STRINGS.userNotFound} / ${STRINGS.invalidAuthCode}`)
+      }
+
+      if (user.isActive) {
+        return response.failed(res, STRINGS.userAlreadyActivated)
+      }
+
+      user.isActive = true
+      user.authCode = null
+
+      await user.save(err => {
+        if (err) {
+          return res.status(200).send(new response.fail(err))
+        }
+
+        return response.successed(res, null, STRINGS.userActivated)
+      })
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
 }

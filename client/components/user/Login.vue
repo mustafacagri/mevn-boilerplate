@@ -2,8 +2,10 @@
 import { useUserStore } from '@/store/user'
 import { useMessageStore } from '@/store/message'
 import { regexEmail } from '@/utils/regex'
+import { nextTick } from 'vue'
 
-const route = useRouter()
+const route = useRoute()
+const router = useRouter()
 
 const userStore = useUserStore()
 const messageStore = useMessageStore()
@@ -39,10 +41,23 @@ const login = () => {
 
   userStore.login({ ...formData.value }).then(res => {
     if (res) {
-      route.push('/user')
+      router.push('/user')
     }
   })
 }
+
+onMounted(async () => {
+  await nextTick() // https://stackoverflow.com/questions/76527094/nuxt-3-and-vue-3-onmounted-call-function-usefetch-function-not-getting-data-form
+  const { type, email, authCode } = route.query
+
+  if (type === 'activate') {
+    userStore.activate({ email, authCode }).then(res => {
+      if (res) {
+        router.push('/user')
+      }
+    })
+  }
+})
 </script>
 
 <template>

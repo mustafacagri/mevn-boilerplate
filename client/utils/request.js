@@ -1,7 +1,7 @@
 import { useMessageStore } from '@/store/message'
 import { useUserStore } from '@/store/user'
 
-async function request(type, pureUrl, params = {}) {
+async function request(type, pureUrl, params = {}, time = null) {
   const baseUrl = import.meta.env.VITE_API_ENDPOINT
   const url = baseUrl + pureUrl
   const { token } = localStorage
@@ -25,14 +25,14 @@ async function request(type, pureUrl, params = {}) {
   const { data, error } = await useFetch(url, { ...options })
 
   if (!data?.value) {
-    useMessageStore().setError({ error: 'Something has been happened?!' })
+    useMessageStore().setError({ error: 'Something has been happened?!', time })
   } else {
     const message = data.value?.message || ''
 
     if (!data.value?.isSuccess) {
-      useMessageStore().setError({ error: message })
+      useMessageStore().setError({ error: message, time })
     } else {
-      useMessageStore().setIsSuccess({ message })
+      useMessageStore().setIsSuccess({ message, time })
 
       return data?.value?.data
     }

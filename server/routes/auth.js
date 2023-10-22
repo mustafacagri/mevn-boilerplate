@@ -8,6 +8,7 @@ router.use(function (req, res, next) {
   next()
 })
 
+router.post('/activate', controller.activate)
 router.post('/signup', [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], controller.signup)
 router.post('/signin', controller.signin)
 
