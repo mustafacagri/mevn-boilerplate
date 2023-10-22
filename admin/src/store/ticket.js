@@ -61,7 +61,7 @@ export const useTicketStore = defineStore('ticket', {
 
       await request('get', `admin/tickets/${id}`).then(res => {
         if (res) {
-          const ticket = this.tickets.find(ticket => ticket._id === id)
+          let ticket = this.tickets.find(ticket => ticket._id === id)
 
           if (ticket) {
             ticket = { ...res }
