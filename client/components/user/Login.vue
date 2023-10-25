@@ -42,6 +42,8 @@ const login = () => {
   userStore.login({ ...formData.value }).then(res => {
     if (res) {
       router.push('/user')
+    } else {
+      isSubmitting.value = false
     }
   })
 }
