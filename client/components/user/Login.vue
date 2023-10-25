@@ -14,7 +14,7 @@ const emit = defineEmits(['updateComponent'])
 
 const visibleEye = ref(true)
 const isSubmitting = ref(false)
-const formData = ref({ email: 'cagri@cagri.com', password: 'cagri' })
+const formData = ref({ email: 'cagri@cagri.com', password: 'cagritest' })
 
 const login = () => {
   isSubmitting.value = true

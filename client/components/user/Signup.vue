@@ -12,7 +12,7 @@ const messageStore = useMessageStore()
 const visibleEye = ref(true)
 const visibleEye2 = ref(true)
 const isSubmitting = ref(false)
-const initialFormData = { email: 'cagri@cagri.com', username: 'cagritest', password: 'cagri', repassword: 'cagri' }
+const initialFormData = { email: 'cagri@cagri.com', username: 'cagritest', password: 'cagritest', repassword: 'cagritest' }
 const formData = ref({ ...initialFormData })
 
 const signup = () => {
