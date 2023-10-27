@@ -56,6 +56,7 @@ module.exports = {
         requireAdmin: 'Require Admin Role!'
       }
     },
-    tickets: { canNotFindTicket: 'Can not find the ticket!' }
+    tickets: { canNotFindTicket: 'Can not find the ticket!' },
+    todos: { canNotFindTodo: 'Can not find the todo!' }
   }
 }
