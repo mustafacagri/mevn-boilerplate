@@ -47,6 +47,11 @@ const todoSchema = new mongoose.Schema({
     required: true,
     default: +new Date()
   },
+  lastUpdatedDate: {
+    type: Date,
+    required: true,
+    default: +new Date()
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
