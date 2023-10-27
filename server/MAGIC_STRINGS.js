@@ -39,7 +39,6 @@ module.exports = {
     tickets: {
       created: 'Ticket has been created successfully!',
       notFound: 'Ticket(s) not found!',
-      created: 'Ticket has been created successfully!',
       invalidId: 'Invalid Id!',
       commentCreated: 'The comment has been submitted successfully!'
     },
