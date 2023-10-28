@@ -1,5 +1,4 @@
 <script setup>
-import { moment } from 'moment'
 import Comment from '@/components/Posts/Comment.vue'
 
 import { useRoute } from 'vue-router'
