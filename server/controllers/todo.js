@@ -6,8 +6,10 @@ const { controllers: { todos: STRINGS } = {} } = require('../MAGIC_STRINGS')
 exports.createTodo = async (req, res) => {
   try {
     const { description, priority, status, title } = req.body
+    const lastUpdatedDate = +new Date()
+    const createdTime = lastUpdatedDate
 
-    let data = { description, priority, status, title }
+    let data = { createdTime, description, lastUpdatedDate, priority, status, title }
 
     if (res?.user) {
       await TodoStatus.findOne({ name: 'Open' }).then(status => {
@@ -33,7 +35,8 @@ exports.todosByUser = async (req, res) => {
     const { lastUpdatedDate } = req?.query
 
     if (lastUpdatedDate) {
-      query.lastUpdatedDate = { $gt: lastUpdatedDate }
+      const date = new Date(lastUpdatedDate)
+      query.lastUpdatedDate = { $gt: date }
     }
 
     const todos = await Todo.aggregate([
@@ -114,14 +117,14 @@ exports.updateTodo = async (req, res) => {
   }
 }
 exports.deleteTodo = async (req, res) => {
-	try {
-		const { todo } = res
-		const user = res.user._id
+  try {
+    const { todo } = res
+    const user = res.user._id
 
-		await Todo.deleteOne({ _id: todo._id, user })
+    await Todo.deleteOne({ _id: todo._id, user })
 
-		response.successed(res, null, STRINGS.deleted)
-	} catch (error) {
-		response.failed(res, error.message)
-	}
+    response.successed(res, null, STRINGS.deleted)
+  } catch (error) {
+    response.failed(res, error.message)
+  }
 }
