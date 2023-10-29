@@ -1,5 +1,4 @@
 const { response, user } = require('../classes')
-const Role = require('../models/role')
 const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const { controllers: { users: STRINGS } = {} } = require('../MAGIC_STRINGS')
@@ -18,7 +17,8 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     let anyError = []
-    const { _id, username, email, isActive, password, roles } = req.body
+    const { _id, username, email, isActive, password } = req.body
+    let { roles } = req.body
 
     if (username && username.length < 8) {
       anyError.push('Username should be more than 7 characters.')
@@ -34,6 +34,8 @@ exports.updateUser = async (req, res) => {
 
     if (roles.length === 0) {
       anyError.push(STRINGS.rolesCanNotBeEmpty)
+    } else {
+      res.user.roles = roles.map(role => mongoose.Types.ObjectId(role._id))
     }
 
     if (anyError.length > 0) {
@@ -54,8 +56,6 @@ exports.updateUser = async (req, res) => {
       if (isActive) {
         res.user.isActive = isActive
       }
-
-      res.user.roles = roles.map(role => mongoose.Types.ObjectId(role))
 
       await res.user.save()
       response.successed(res, { _id, email, isActive, roles, username }, 'User has been successfully updated!')
