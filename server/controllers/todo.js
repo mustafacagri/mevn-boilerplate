@@ -106,7 +106,7 @@ exports.updateTodo = async (req, res) => {
       const data = { _id: todo._id, description, lastUpdatedDate, priority, status, title }
 
       const user = res.user._id
-      await Todo.updateOne({ _id: todo._id, user }, { ...data })
+      await Todo.updateOne({ _id: todo._id, user }, { $set: { ...data } })
 
       response.successed(res, { ...data }, STRINGS.updated)
     } else {
@@ -123,7 +123,7 @@ exports.deleteTodo = async (req, res) => {
 
     await Todo.deleteOne({ _id: todo._id, user })
 
-    response.successed(res, null, STRINGS.deleted)
+    response.successed(res, todo._id, STRINGS.deleted)
   } catch (error) {
     response.failed(res, error.message)
   }

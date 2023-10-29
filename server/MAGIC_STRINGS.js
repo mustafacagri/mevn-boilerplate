@@ -47,7 +47,8 @@ module.exports = {
       notFound: 'Todo not found!',
       invalidId: 'Invalid Id!',
       dataMustBeProvided: 'All fields must be provided!',
-      deleted: 'Todo has been deleted successfully!'
+      deleted: 'Todo has been deleted successfully!',
+      updated: 'Todo has been updated successfully!'
     }
   },
   middlewares: {
