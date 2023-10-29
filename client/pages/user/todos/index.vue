@@ -44,7 +44,8 @@ const todosUpdated = () => {
 
 <template>
   <div v-if="todos && Array.isArray(todos) && todos.length === 0" class="alert alert-danger" role="alert">
-    There is no todo <span v-if="selectedPriority || selectedStatus">with these filters!</span>
+    There is no todo
+    <span v-if="selectedPriority || selectedStatus">with these filters!</span>
   </div>
 
   <table v-else-if="todos" class="table table-striped table-hover">
@@ -55,6 +56,7 @@ const todosUpdated = () => {
         <th>Priority</th>
         <th>Created</th>
         <th>Last</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -66,6 +68,14 @@ const todosUpdated = () => {
         <td>{{ todo?.priority?.name || '-' }}</td>
         <td>{{ timeDisplay(todo?.createdTime) }}</td>
         <td>{{ timeDisplay(todo?.lastUpdatedDate) }}</td>
+        <td>
+          <router-link :to="`/user/todos/${todo?._id}?action=edit`">
+            <Icon icon="pencil" class="me-2" />
+          </router-link>
+          <router-link :to="`/user/todos/${todo?._id}?action=delete`">
+            <Icon icon="close" />
+          </router-link>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -77,3 +87,9 @@ const todosUpdated = () => {
     <span class="placeholder col-8"></span>
   </p>
 </template>
+
+<style scoped lang="scss">
+a {
+  color: hsla(160, 100%, 37%, 1);
+}
+</style>
