@@ -42,7 +42,7 @@ const sidebarLinks = ref([
         <div v-if="router?.path === '/user/todos'" class="picklists">
           <a v-if="todoStore.getStatuses" class="nav-link mb-2">
             Status:
-            <select v-model="selectedStatus" @change="todoStore.selectedStatus = selectedStatus">
+            <select v-model="selectedStatus" id="selectedStatus" @change="todoStore.selectedStatus = selectedStatus">
               <option :value="null">All</option>
               <option
                 v-if="todoStore.getStatuses"
@@ -57,7 +57,11 @@ const sidebarLinks = ref([
 
           <a v-if="todoStore.getPriorities" class="nav-link mb-2">
             Priority:
-            <select v-model="selectedPriority" @change="todoStore.selectedPriority = selectedPriority">
+            <select
+              v-model="selectedPriority"
+              id="selectedPriority"
+              @change="todoStore.selectedPriority = selectedPriority"
+            >
               <option :value="null">All</option>
               <option
                 v-if="todoStore.getPriorities"

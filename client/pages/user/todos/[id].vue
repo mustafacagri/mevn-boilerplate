@@ -10,6 +10,7 @@ import { useTodoStore } from '@/store'
 const todoStore = useTodoStore()
 
 const route = useRoute()
+const router = useRouter()
 
 const todo = ref(null)
 const mapping = {
@@ -34,8 +35,8 @@ onMounted(() => {
   })
 })
 
-const addComment = comment => {
-  todo.value.comments.push(comment)
+const remove = () => {
+  todoStore.deleteTodo(id.value).then(res => router.push('/user/todos'))
 }
 </script>
 
@@ -44,6 +45,15 @@ const addComment = comment => {
     <div class="row" v-for="key in Object.keys(mapping)" :key="key">
       <div class="col-3 left">{{ mapping[key] }}:</div>
       <div class="col-9">{{ todo[key] }}</div>
+    </div>
+
+    <div class="form-group row actions mt-4">
+      <div class="col-sm-9 offset-sm-3">
+        <button class="btn mr-5 btn-danger" @click="remove()"><Icon icon="fas fa-close" class="me-2" />Remove</button>
+        <router-link :to="`/user/todos/new?_id=${todo?._id}`">
+          <button class="btn mr-5 btn-primary"><Icon icon="fas fa-pencil" class="me-2" />Edit</button>
+        </router-link>
+      </div>
     </div>
   </div>
   <utilsSkeleton v-else />
@@ -69,6 +79,17 @@ const addComment = comment => {
     .left {
       text-align: right;
       padding-right: 10px;
+    }
+  }
+
+  .actions {
+    button {
+      display: inline-block;
+      width: auto;
+    }
+
+    button:not(:last-child) {
+      margin-right: 10px;
     }
   }
 }
