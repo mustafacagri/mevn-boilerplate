@@ -57,27 +57,28 @@ const edit = id => {
     :headers="headers"
     :items="tickets"
   >
-    <template #[`item.customer`]="{ item }"> {{ item.columns.customer?.username || '-' }} </template>
-    <template #[`item.lastUpdatedBy`]="{ item }">
-      <span :class="{ 'text-error': item.columns?.lastUpdatedBy?._id === item.columns?.customer?._id }">{{
-        item.columns?.lastUpdatedBy?.username
+    <template v-slot:item.customer="{ value }">{{ value?.username || '-' }} </template>
+    <template v-slot:item.lastUpdatedBy="{ item }">
+      <span :class="{ 'text-error': item?.lastUpdatedBy?._id === item?.customer?._id }">{{
+        item?.lastUpdatedBy?.username
       }}</span>
     </template>
-    <template #[`item.status`]="{ item }">{{ item.columns.status?.name || '-' }}</template>
-    <template #[`item.priority`]="{ item }">{{ item.columns.priority?.name || '-' }}</template>
-    <template #[`item.action`]="{ item }">
+    <template v-slot:item.status="{ value }">{{ value?.name || '-' }}</template>
+    <template v-slot:item.priority="{ value }">{{ value?.name || '-' }}</template>
+
+    <template v-slot:item.action="{ item }">
       <VBtn
-        @click="edit(item.columns._id)"
+        @click="edit(item._id)"
         class="mr-2"
       >
         <VIcon icon="mdi-envelope" />
       </VBtn>
     </template>
-    <template #[`item.lastUpdatedDate`]="{ item }">
-      <span v-if="item.columns.lastUpdatedDate">{{ timeDisplay(item.columns.lastUpdatedDate) }}</span>
+    <template v-slot:item.lastUpdatedDate="{ value }">
+      <span v-if="value">{{ timeDisplay(value) }}</span>
     </template>
-    <template #[`item.createdTime`]="{ item }">
-      <span v-if="item.columns.createdTime">{{ timeDisplay(item.columns.createdTime) }}</span>
+    <template v-slot:item.createdTime="{ value }">
+      <span v-if="value">{{ timeDisplay(value) }}</span>
     </template>
   </VDataTable>
   <VSkeletonLoader

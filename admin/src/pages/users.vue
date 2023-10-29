@@ -8,7 +8,6 @@ const messageStore = useMessageStore()
 
 const data = computed(() => userStore.getUsers)
 const editing = ref(false)
-
 const user = ref({})
 
 const edit = value => {
@@ -66,20 +65,20 @@ const headers = ref([
     item-value="name"
     class="elevation-1"
   >
-    <template #[`item.isActive`]="{ item }">
+    <template v-slot:item.isActive="{ value }">
       <VBtn
-        :color="item.columns.isActive === true ? 'success' : 'error'"
+        :color="value === true ? 'success' : 'error'"
         disabled
       >
-        {{ item.columns.isActive ? 'Active' : 'Not Active' }}
+        {{ value ? 'Active' : 'Not Active' }}
       </VBtn>
     </template>
-    <template #[`item.roles`]="{ item }">
-      {{ item.columns.roles.map(role => role.name).join(', ') }}
+    <template v-slot:item.roles="{ value }">
+      {{ value.map(role => role.name).join(', ') }}
     </template>
-    <template #[`item.action`]="{ item }">
+    <template v-slot:item.action="{ item }">
       <VBtn
-        @click="edit(item.columns)"
+        @click="edit(item)"
         class="mr-2"
       >
         <VIcon icon="mdi-pencil" />
@@ -87,12 +86,11 @@ const headers = ref([
 
       <Delete
         :user="user"
-        @click="user = item.columns"
+        @click="user = item"
       />
     </template>
-    <template #[`item.createdTime`]="{ item }">
-      <!-- {{ new Date(item.columns.createdTime).toLocaleString() }} -->
-      <span v-if="item.columns.createdTime">{{ item.columns.createdTime.substring(0, 16).replace('T', ', 	') }}</span>
+    <template v-slot:item.createdTime="{ value }">
+      <span v-if="value">{{ value.substring(0, 16).replace('T', ', 	') }}</span>
     </template>
   </VDataTable>
 </template>
