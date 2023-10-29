@@ -5,7 +5,7 @@ const { Types } = require('mongoose')
 
 exports.getTodo = async (req, res, next) => {
   try {
-    let _id, userId, todo
+    let _id, todo
 
     if (res?.user?._id) {
       user = res.user._id
