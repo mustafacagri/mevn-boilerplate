@@ -30,7 +30,6 @@ const todoPrioritySchema = new mongoose.Schema({
   description: String
 })
 
-// todo Schema
 const todoSchema = new mongoose.Schema({
   title: String,
   description: String,
