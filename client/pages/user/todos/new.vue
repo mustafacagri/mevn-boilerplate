@@ -4,18 +4,22 @@ definePageMeta({
   middleware: 'auth'
 })
 
+const router = useRouter()
+
 import { useMessageStore, useTodoStore } from '@/store'
 
 const todoStore = useTodoStore()
 const messageStore = useMessageStore()
 
 const isSubmitting = ref(false)
+const isEditing = ref(false)
 const initialFormData = {
   title: '',
   description: ''
 }
 
 initialFormData.priority = todoStore.priorities?.find(p => p.order === 2)?._id || ''
+initialFormData.status = todoStore.statuses?.find(s => s.order === 0)?._id || ''
 
 const formData = ref({ ...initialFormData })
 
@@ -44,24 +48,71 @@ const submit = () => {
     }
   }
 
-  todoStore.createTodo({ ...formData.value }).then(res => {
-    if (res) {
-      clear()
-    }
+  if (isEditing.value) {
+    todoStore.updateTodo(formData.value._id, { ...formData.value }).then(res => {
+      if (res) {
+        router.push('/user/todos')
+      }
 
-    isSubmitting.value = false
-  })
+      isSubmitting.value = false
+    })
+  } else {
+    todoStore.createTodo({ ...formData.value }).then(res => {
+      if (res) {
+        clear()
+      }
+
+      isSubmitting.value = false
+    })
+  }
 }
+
+onMounted(() => {
+  if (router?.currentRoute?.value?.query) {
+    const { _id } = router.currentRoute.value.query
+
+    if (_id) {
+      const todo = todoStore.getTodoById(_id)
+
+      if (todo) {
+        isEditing.value = true
+
+        const {
+          _id,
+          title,
+          description,
+          priority: { _id: priority },
+          status: { _id: status }
+        } = todo
+
+        formData.value = { ...formData.value, _id, title, description, priority, status }
+      } else {
+        router.push('/user/todos')
+      }
+    }
+  }
+})
 </script>
 
 <template>
-  <utilsGetErrorSuccess />
+  formData: {{ formData }}
   <div class="form-group row mb-2">
     <label for="priority" class="col-sm-3 col-form-label text-end">Priority:</label>
     <div class="col-sm-9">
       <select class="form-control" id="priority" v-model="formData.priority">
         <option v-for="priority in todoStore.getPriorities" :value="priority._id">
           {{ priority.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row mb-2">
+    <label for="status" class="col-sm-3 col-form-label text-end">Status:</label>
+    <div class="col-sm-9">
+      <select class="form-control" id="status" v-model="formData.status">
+        <option v-for="status in todoStore.getStatuses" :value="status._id">
+          {{ status.name }}
         </option>
       </select>
     </div>
@@ -85,7 +136,9 @@ const submit = () => {
     <label for="description" class="col-sm-3"></label>
     <div class="col-sm-9 text-center">
       <button :disabled="isSubmitting" class="btn mr-5 btn-danger" @click="clear()">Clear</button>
-      <button :disabled="isSubmitting" class="btn btn-success" @click="submit()">Submit</button>
+      <button :disabled="isSubmitting" class="btn btn-success" @click="submit()">
+        {{ isEditing ? 'Save' : 'Create' }}
+      </button>
     </div>
   </div>
 </template>

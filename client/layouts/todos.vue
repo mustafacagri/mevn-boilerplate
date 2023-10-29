@@ -73,6 +73,7 @@ const sidebarLinks = ref([
       </div>
       <!--col-3 sidebar-->
       <div class="col-9">
+        <utilsGetErrorSuccess />
         <div id="Todos"><NuxtPage /></div>
       </div>
     </div>

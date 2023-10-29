@@ -14,7 +14,8 @@ export const useTodoStore = defineStore('todo', {
     },
     getTodos() {
       return this.todos
-    }
+    },
+    getTodoById: state => _id => state.todos.find(todo => todo._id === _id)
   },
   actions: {
     init() {},
@@ -55,6 +56,28 @@ export const useTodoStore = defineStore('todo', {
         this.todos = [...res, ...this.todos.filter(todo => !ids.includes(todo._id))]
 
         response = !!res
+      })
+
+      return response
+    },
+    async updateTodo(_id, payload) {
+      let response
+
+      await request('put', `todos/${_id}`, payload).then(res => {
+        response = !!res
+      })
+
+      return response
+    },
+    async deleteTodo(id) {
+      let response
+
+      await request('delete', `todos/${id}`).then(res => {
+        response = !!res
+
+        if (response) {
+          this.todos = this.todos.filter(todo => todo._id !== id)
+        }
       })
 
       return response

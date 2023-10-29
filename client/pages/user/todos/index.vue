@@ -40,6 +40,15 @@ const todosUpdated = () => {
     }
   })
 }
+
+const remove = id => {
+  todoStore.deleteTodo(id).then(res => {
+    if (res) {
+      todos.value = todos.value.filter(todo => todo._id !== id)
+      initialTodos = initialTodos.filter(todo => todo._id !== id)
+    }
+  })
+}
 </script>
 
 <template>
@@ -69,12 +78,12 @@ const todosUpdated = () => {
         <td>{{ timeDisplay(todo?.createdTime) }}</td>
         <td>{{ timeDisplay(todo?.lastUpdatedDate) }}</td>
         <td>
-          <router-link :to="`/user/todos/${todo?._id}?action=edit`">
+          <router-link :to="`/user/todos/new?_id=${todo?._id}`">
             <Icon icon="pencil" class="me-2" />
           </router-link>
-          <router-link :to="`/user/todos/${todo?._id}?action=delete`">
+          <a @click="remove(todo._id)" class="text-danger">
             <Icon icon="close" />
-          </router-link>
+          </a>
         </td>
       </tr>
     </tbody>
@@ -91,5 +100,6 @@ const todosUpdated = () => {
 <style scoped lang="scss">
 a {
   color: hsla(160, 100%, 37%, 1);
+  cursor: pointer;
 }
 </style>
