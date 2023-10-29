@@ -95,7 +95,6 @@ onMounted(() => {
 </script>
 
 <template>
-  formData: {{ formData }}
   <div class="form-group row mb-2">
     <label for="priority" class="col-sm-3 col-form-label text-end">Priority:</label>
     <div class="col-sm-9">
