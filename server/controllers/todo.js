@@ -26,7 +26,7 @@ exports.todosByUser = async (req, res) => {
   try {
     const { user } = res
     const query = { user: user._id }
-    const { lastUpdatedDate } = req?.query
+    const { lastUpdatedDate } = req?.query || {}
 
     if (lastUpdatedDate) {
       const date = new Date(lastUpdatedDate)
