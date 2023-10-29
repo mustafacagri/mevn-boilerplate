@@ -12,13 +12,7 @@ const selectedStatus = ref(null)
 const selectedPriority = ref(null)
 
 onMounted(() => {
-  if (!todoStore.statuses) {
-    todoStore.fetchStatuses()
-  }
-
-  if (!todoStore.priorities) {
-    todoStore.fetchPriorities()
-  }
+  todoStore.fetchStatusesAndPriorities()
 })
 
 const sidebarLinks = ref([

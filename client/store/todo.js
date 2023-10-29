@@ -19,17 +19,16 @@ export const useTodoStore = defineStore('todo', {
   },
   actions: {
     init() {},
-    fetchStatuses() {
-      request('get', 'todos/statuses').then(res => {
-        if (res) {
-          this.statuses = res.sort((a, b) => a.order - b.order)
-        }
-      })
-    },
-    fetchPriorities() {
-      request('get', 'todos/priorities').then(res => {
-        if (res) {
-          this.priorities = res.sort((a, b) => b.order - a.order)
+    fetchStatusesAndPriorities() {
+      const types = ['statuses', 'priorities']
+
+      types.forEach(type => {
+        if (this[type]) {
+          request('get', `todos/${type}`).then(res => {
+            if (res) {
+              this[type] = res.sort((a, b) => a.order - b.order)
+            }
+          })
         }
       })
     },
