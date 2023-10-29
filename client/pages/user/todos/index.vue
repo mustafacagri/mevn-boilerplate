@@ -57,7 +57,10 @@ const remove = id => {
     <span v-if="selectedPriority || selectedStatus">with these filters!</span>
   </div>
 
-  <table v-else-if="todos" class="table table-striped table-hover" summary="Todos Listing Table">
+  <table v-else-if="todos" class="table table-striped table-hover">
+    <caption>
+      Todos Listing Table
+    </caption>
     <thead>
       <tr>
         <th>Title</th>
