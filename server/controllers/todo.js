@@ -12,12 +12,6 @@ exports.createTodo = async (req, res) => {
     let data = { createdTime, description, lastUpdatedDate, priority, status, title }
 
     if (res?.user) {
-      await TodoStatus.findOne({ name: 'Open' }).then(status => {
-        if (status?._id) {
-          data.status = status._id // we are assinging the status as Open at the beginning of the creating todo
-        }
-      })
-
       data = { ...data, user: res.user._id }
       const todo = await Todo.create({ ...data })
 
