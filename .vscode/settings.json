@@ -1,3 +1,139 @@
 {
-  "editor.renderWhitespace": "all"
+  "vetur.validation.template": false,
+  "vetur.validation.script": false,
+  "vetur.validation.style": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.folders.color": "#ef6c00",
+  "workbench.activityBar.visible": true,
+  "workbench.colorCustomizations": {
+    "editorBracketMatch.background": "#f008",
+    "editorBracketMatch.border": "#f00",
+    "editorIndentGuide.background1": "#5d6664bd",
+    "editor.selectionBackground": "#135564",
+    "editor.selectionHighlightBackground": "#135554c4",
+    "editorLineNumber.foreground": "#A8DCFD"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.minimap.enabled": false,
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "all",
+  "editor.detectIndentation": false,
+  "editor.columnSelection": false,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "keyboard.touchbar.enabled": false,
+  // IntelliSense settings
+  "editor.suggestSelection": "first",
+  "editor.snippetSuggestions": "top",
+  // Exclude from search
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  // Map Webpack aliases
+  "path-intellisense.mappings": {
+    "@": "${workspaceFolder}/src"
+  },
+  "files.associations": {
+    "*.gs": "javascript"
+  },
+  // Guides settings
+  "guides.limit.maximum": -0.5,
+  "guides.active.color.dark": "rgba(195, 112, 60, 1)",
+  "guides.normal.enabled": true,
+  "guides.sendUsagesAndStats": false,
+  "guides.updateDelay": 0.01,
+  "guides.overrideDefault": true,
+  "breadcrumbs.enabled": true,
+  // Import cost settings
+  "importCost.typescriptExtensions": ["\\.tsx?$", "\\.vue$"],
+  "importCost.javascriptExtensions": ["\\.jsx?$", "\\.vue$"],
+  // ignore message stuff
+  "material-icon-theme.showUpdateMessage": false,
+  "git.ignoreMissingGitWarning": true,
+  // Jest run it settings
+  "jestRunIt.debugTestLabel": "🐞 Debug",
+  "jestRunIt.runTestLabel": "🏃‍♂ Run",
+  // ESLINT Settings
+  // "eslint.enable": true, // deprecated
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "extensions": [".vue", ".js", ".ts", ".html", ".jsx", ".mdx"]
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html", "vue"],
+
+  // Terminal settings
+  "terminal.integrated.rendererType": "dom",
+  "terminal.integrated.fontFamily": "monospace",
+  "terminal.integrated.shell.osx": "/bin/zsh",
+  "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+
+  // Prettier settings
+  "prettier.printWidth": 120,
+  "prettier.trailingComma": "none",
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.bracketSpacing": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.eslintIntegration": true,
+
+  // Vetur settings
+  "vetur.format.defaultFormatter.js": "none",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    "prettyhtml": {
+      "wrapAttributes": true
+    },
+    "js-beautify-html": {
+      "wrap_attributes": "auto"
+    }
+  },
+
+  // Formatters settings
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  /* Sync Settings */
+  "sync.gist": "51fe52014b80f52ce5e6c87696921b9c",
+  "sync.autoDownload": false,
+  "sync.autoUpload": false,
+  "sync.forceDownload": false,
+  "sync.quietSync": false,
+  "sync.removeExtensions": true,
+  "sync.syncExtensions": true,
+  "sync.forceUpload": true,
+  "editor.guides.indentation": false,
+  "workbench.startupEditor": "none",
+  "editor.fontFamily": "",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "debug.terminal.clearBeforeReusing": true,
+  "material-icon-theme.activeIconPack": "vue",
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+	},
+  "workbench.colorTheme": "Atom One Dark",
+  "npm.keybindingsChangedWarningShown": true,
+  "editor.insertSpaces": false,
+	"security.workspace.trust.untrustedFiles": "open",
+  "html.format.enable": false,
+  "editor.formatOnSaveMode": "modifications",
+	"editor.wordWrapColumn": 500,
+	"window.zoomLevel": 1
 }
