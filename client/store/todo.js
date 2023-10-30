@@ -23,7 +23,7 @@ export const useTodoStore = defineStore('todo', {
       const types = ['statuses', 'priorities']
 
       types.forEach(type => {
-        if (this[type]) {
+        if (!this[type]) {
           request('get', `todos/${type}`).then(res => {
             if (res) {
               this[type] = res.sort((a, b) => a.order - b.order)
