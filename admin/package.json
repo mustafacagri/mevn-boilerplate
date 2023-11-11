@@ -16,7 +16,7 @@
         "@tiptap/vue-3": "^2.0.0-beta.209",
         "@vueuse/core": "^8.9.4",
         "apexcharts-clevision": "^3.28.5",
-        "axios": "^1.2.1",
+        "axios": "^1.6.0",
         "axios-mock-adapter": "^1.21.2",
         "chart.js": "^3.9.1",
         "eslint-import-resolver-alias": "^1.1.2",
