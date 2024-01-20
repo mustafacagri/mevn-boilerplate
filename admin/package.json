@@ -76,7 +76,7 @@
         "stylelint-use-logical-spec": "^4.1.0",
         "unplugin-auto-import": "^0.10.3",
         "unplugin-vue-components": "^0.21.2",
-        "vite": "^3.2.7",
+        "vite": "^3.2.8",
         "vite-plugin-pages": "^0.25.0",
         "vite-plugin-vue-layouts": "^0.7.0",
         "vite-plugin-vuetify": "1.0.0-alpha.17",
