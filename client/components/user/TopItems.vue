@@ -5,7 +5,8 @@ const userStore = useUserStore()
 const router = useRouter()
 const topItems = ref([
   { text: 'Profile', to: '/user/profile', icon: 'fa-solid fa-user' },
-  { text: 'Tickets', to: '/user/tickets', icon: 'fa-solid fa-envelope' }
+  { text: 'Tickets', to: '/user/tickets', icon: 'fa-solid fa-envelope' },
+  { text: 'Todos', to: '/user/todos', icon: 'fa-solid fa-check' }
 ])
 const logout = () => {
   userStore.logout().then(() => {
