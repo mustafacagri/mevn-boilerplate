@@ -5,6 +5,7 @@ const Post = require('../../models/post')
 const slug = require('slug')
 
 const { TicketStatus, TicketPriority } = require('../../models/ticket')
+const { TodoStatus, TodoPriority } = require('../../models/todo')
 
 async function init(req, res, next) {
   // here we are creating the user roles initially
@@ -15,6 +16,9 @@ async function init(req, res, next) {
 
   const newTicketStatuses = []
   const newTicketPriorities = []
+
+  const newTodoStatuses = []
+  const newTodoPriorities = []
 
   await Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
@@ -81,7 +85,34 @@ async function init(req, res, next) {
     }
   })
 
-  response.successed(res, { newRoles, newCategories, newPosts, newTicketPriorities, newTicketStatuses })
+
+  await TodoPriority.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      const priorities = ['Lowest', 'Lower', 'Medium', 'Higher', 'Highest']
+
+      for (const [order, name] of priorities.entries()) {
+        new TodoPriority({ name, order }).save(err => {
+          if (err) console.log('error', err)
+          newTodoPriorities.push(`added '${name}' to todo priorities collection`)
+        })
+      }
+    }
+  })
+
+  await TodoStatus.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      const statuses = ['Open', 'In Progress', 'On Hold', 'Closed', 'Resolved']
+
+      for (const [order, name] of statuses.entries()) {
+        new TodoStatus({ name, order }).save(err => {
+          if (err) console.log('error', err)
+          newTodoStatuses.push(`added '${name}' to todo statuses collection`)
+        })
+      }
+    }
+  })
+
+  response.successed(res, { newRoles, newCategories, newPosts, newTicketPriorities, newTicketStatuses, newTodoPriorities, newTodoStatuses })
 }
 
 module.exports = init

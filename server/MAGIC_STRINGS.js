@@ -39,9 +39,16 @@ module.exports = {
     tickets: {
       created: 'Ticket has been created successfully!',
       notFound: 'Ticket(s) not found!',
-      created: 'Ticket has been created successfully!',
       invalidId: 'Invalid Id!',
       commentCreated: 'The comment has been submitted successfully!'
+    },
+    todos: {
+      created: 'Todo has been created successfully!',
+      notFound: 'Todo not found!',
+      invalidId: 'Invalid Id!',
+      dataMustBeProvided: 'All fields must be provided!',
+      deleted: 'Todo has been deleted successfully!',
+      updated: 'Todo has been updated successfully!'
     }
   },
   middlewares: {
@@ -56,6 +63,7 @@ module.exports = {
         requireAdmin: 'Require Admin Role!'
       }
     },
-    tickets: { canNotFindTicket: 'Can not find the ticket!' }
+    tickets: { canNotFindTicket: 'Can not find the ticket!' },
+    todos: { canNotFindTodo: 'Can not find the todo!' }
   }
 }

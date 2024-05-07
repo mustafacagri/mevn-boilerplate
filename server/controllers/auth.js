@@ -126,7 +126,6 @@ exports.signin = (req, res) => {
       if (err) {
         return res.status(200).send(new response.fail(err))
       }
-      console.log(user)
 
       if (!user) {
         return response.failed(res, `${STRINGS.userNotFound} or ${STRINGS.invalidPassword}`)
